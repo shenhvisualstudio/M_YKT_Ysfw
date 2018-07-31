@@ -1,0 +1,357 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>待评价</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<link rel="stylesheet" href="../../fonts/iconfont.css" />
+		<link rel="stylesheet" href="../../css/style.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background: #27c1f7;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title" style="color: white;">待评价</h1>
+			<a class="mui-icon mui-pull-right" id="id_MyEavluate_A" style="font-size: 15px; line-height: 28px; color: white;">我的评价</a>
+		</header>
+
+		<div class="mui-content">
+			<div id="pullrefresh" class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<section class="order">
+						<!--<dl>
+                            <dt>
+                                <span id="id_VehicleAttestNo_Span"><i class="icon-truck"></i>1301170082</span>
+                                <time id="id_Time_Time">2015-11-15 22:55</time>
+                            </dt>
+                            <dd>
+                                <span class="fl text1" id="id_FullOrEmpty_Span">集港</span>
+                                <span class="fl text1a" id="id_Vessel_Span">紫玉兰</span>
+                                <span class="fl text1b" id="id_cargo_Span">小麦</span>
+                                <span class="fr text1c" id="id_vehicle_Span">苏G12A34黄</span>
+                            </dd>
+                            <dd>
+                                <input type="button" value="评价" class="order-que" id="id_Evaluate_Input" />
+                                <input type="button" value="删除" class="fl" id="id_Delete_Input" />
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                <span id="id_VehicleAttestNo_Span"><i class="icon-truck"></i>1301170082</span>
+                                <time id="id_Time_Time">2015-11-15 22:55</time>
+                            </dt>
+                            <dd>
+                                <span class="fl text1" id="id_FullOrEmpty_Span">集港</span>
+                                <span class="fl text1a" id="id_Vessel_Span">紫玉兰</span>
+                                <span class="fl text1b" id="id_cargo_Span">小麦</span>
+                                <span class="fr text1c" id="id_vehicle_Span">苏G12A34黄</span>
+                            </dd>
+                            <dd>
+                                <input type="button" value="评价" class="order-que" id="id_Evaluate_Input" />
+                                <input type="button" value="删除" class="fl" id="id_Delete_Input" />
+                            </dd>
+                        </dl>-->
+					</section>
+				</div>
+			</div>
+		</div>
+
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/md5-min.js" ></script>
+		<script type="text/javascript" src="../../js/config.js "></script>
+		<script type="text/javascript" src="../../js/common.js "></script>
+		<script type="text/javascript">
+			//账户
+			var account = "";
+			//起始行
+			var startRow = 1;
+			//结束行
+			var endRow = 5;
+			//行数
+			var count = 10;
+			//间距
+			var num = 1;
+
+			mui.init({
+				//				swipeBack: true,
+				//				gestureConfig: {
+				//					swipe: true 
+				//				},
+
+				pullRefresh: {
+					container: '#pullrefresh',
+					up: {
+						height: 50, //可选.默认50.触发上拉加载拖动距离
+						auto: false, //可选,默认false.自动上拉加载一次
+						contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+						contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+						callback: pullupRefresh //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					}
+				}
+			});
+
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					plusReady();
+
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 1000);
+
+				});
+			} else {
+				mui.plusReady(function() {
+					plusReady();
+
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+
+			function plusReady() {
+				var params = plus.webview.currentWebview();
+				//账户
+				account = params.account;
+
+				//网络监听
+				//document.addEventListener("netchange", wainshow, false);		
+
+				//评价
+				//				//预加载
+				//				var releaseEvaluatePage = mui.preload({
+				//					url: "releaseEvaluate.html",
+				//					id: "releaseEvaluate.html"
+				//				});
+				//				mui(".order").on('tap', 'dl .order-que', function() {
+				//					var id = this.getAttribute("param");
+				//					mui.fire(releaseEvaluatePage, 'releaseEvaluateEvent', {
+				//						'appName': appName,
+				//						'sign': sign,
+				//						'account': account,
+				//						'id': id
+				//					});
+				//					mui.openWindow({
+				//						url: "releaseEvaluate.html",
+				//						id: "releaseEvaluate.html",
+				//					});
+				//				})
+
+				mui(".order").on('tap', 'dl .order-que', function() {
+					var evaluateId = this.getAttribute("param");
+
+					mui.openWindow({
+
+						url: "releaseEvaluate.html",
+						id: "releaseEvaluate.html",
+
+						extras: {
+							account: account,
+							evaluateId: evaluateId,
+						},
+						createNew: true,
+						show: {
+							autoShow: true,
+						},
+					});
+				})
+
+				//删除
+				mui(".order").on('tap', 'dl .fl', function() {
+					var evaluateId = this.getAttribute("param");
+
+					var btnArray = ['取消', '确定'];
+					var dl = this.parentNode.parentNode;
+					mui.confirm("确定删除？", "", btnArray, function(e) {
+						if(e.index == 1) {
+							
+							var objectList = new Array();
+							objectList.push(new KeyValue("AppName", Sys.APP_CODE));
+							objectList.push(new KeyValue("Account", account));
+							objectList.push(new KeyValue("Id", evaluateId));
+
+							//删除后台数据
+							mui.ajax({
+								type: 'POST',
+								data: {
+									'AppName': Sys.APP_CODE,
+									'Sign': GetSign(objectList),
+									'Account': account,
+									'Id': evaluateId,
+								},
+								url: Url.HTTP_DELETE_TOEVALUATE_URL,
+								timeout: 10000, //超时时间设置为10秒；
+								dataType: 'json', //服务器返回json格式数据
+
+								success: function(data) {
+
+									if(data.IsSuccess) {
+
+										if(data.Data == null) {
+											//删除列表元素
+											dl.parentNode.removeChild(dl);
+											mui.toast(data.Message);
+										}
+									} else {
+										console.log(data.Message);
+										mui.toast(data.Message);
+									}
+								},
+								error: function(xhr, type, errorThrown) {
+
+									console.log(errorThrown);
+									mui.toast("网络未连接");
+								}
+
+							});
+						}
+					});
+				})
+
+				//我的评价
+				document.getElementById('id_MyEavluate_A').addEventListener('tap', function() {
+					mui.openWindow({
+
+						url: "myEvaluate.html",
+						id: "myEvaluate.html",
+
+						extras: {
+							account: account,
+						},
+						createNew: false,
+						show: {
+							autoShow: true,
+						},
+					});
+				});
+
+			}
+
+			/*
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+
+				startRow = startRow + (num - 1) * count;
+				endRow = startRow + count - 1;
+				num++;
+
+				var objectList = new Array();
+				objectList.push(new KeyValue("AppName", Sys.APP_CODE));
+				objectList.push(new KeyValue("StartRow", startRow));
+				objectList.push(new KeyValue("EndRow", endRow));
+				objectList.push(new KeyValue("Account", account));
+
+				mui.ajax({
+					type: 'POST',
+					data: {
+						'AppName': Sys.APP_CODE,
+						'Sign': GetSign(objectList),
+						'StartRow': startRow,
+						'EndRow': endRow,
+						'Account': account,
+					},
+					url: Url.HTTP_GET_TOEVALUATE_LIST_URL,
+					timeout: 15000, //超时时间设置为10秒；
+					dataType: 'json', //服务器返回json格式数据
+
+					success: function(data) {
+
+						if(data.IsSuccess) {
+
+							if(data.Data != null) {
+								//添加列表
+								var table = document.body.querySelector('.order');
+								render(data.Data, table);
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+							} else {
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+							}
+						} else {
+							console.log(data.Message);
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+							mui.toast(data.Message);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+
+						console.log(errorThrown);
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+						mui.toast("网络未连接");
+					}
+				});
+			}
+
+			//添加列表
+			function render(data, table) {
+				for(var i = 0; i < data.length; i++) {
+					var item = data[i];
+					var dl = document.createElement('dl');
+					dl.innerHTML = renderItem(item);
+					table.appendChild(dl);
+				}
+			}
+
+			//添加列表元素
+			function renderItem(data) {
+
+				var fullorempty_html = data[2] == "" ? "<span class=\"fl text1\" id=\"id_FullOrEmpty_Span\">&nbsp</span>" : "<span class=\"fl text1\" id=\"id_FullOrEmpty_Span\">" + data[2] + "</span>";
+				var vessel_html = data[3] == "" ? "<span class=\"fl text1a\" id=\"id_Vessel_Span\">&nbsp</span>" : "<span class=\"fl text1a\" id=\"id_Vessel_Span\">" + data[3] + "</span>";
+				var cargo_html = data[4] == "" ? "<span class=\"fl text1b\" id=\"id_cargo_Span\">&nbsp</span>" : "<span class=\"fl text1b\" id=\"id_cargo_Span\">" + data[4] + "</span>";
+				var vehicle_html = data[5] == "" ? "<span class=\"fr text1c\" id=\"id_vehicle_Span\">&nbsp</span>" : "<span class=\"fr text1c\" id=\"id_vehicle_Span\">" + data[5] + "</span>";
+
+				var str =
+					"<dl>\
+					        <div style=\"height: 0.5rem; background-color: #efeff4;\"></div>\
+                            <dt>\
+                                <span id=\"id_VehicleAttestNo_Span\"><i class=\"icon-truck\"></i>" + data[1] + "</span>\
+                                <time id=\"id_Time_Time\">" + data[6] + "</time>\
+                            </dt>\
+                            <dd>" +
+					fullorempty_html +
+					vessel_html +
+					cargo_html +
+					vehicle_html +
+					//                              <span class=\"fl text1\" id=\"id_FullOrEmpty_Span\">" + data[2] + "</span>\
+					//                              <span class=\"fl text1a\" id=\"id_Vessel_Span\">" + data[3] + "</span>\
+					//                              <span class=\"fl text1b\" id=\"id_cargo_Span\">" + data[4] + "</span>\
+					//                              <span class=\"fr text1c\" id=\"id_vehicle_Span\">" + data[5] + "</span>\
+					"</dd>\
+                            <dd>\
+                                <input type=\"button\" value=\"评价\" class=\"order-que\" id=\"id_Evaluate_Input\" param='" + data[0] + "'/>\
+                                <input type=\"button\" value=\"删除\" class=\"fl\" id=\"id_Delete_Input\" param='" + data[0] + "'/>\
+                            </dd>\
+                        </dl>";
+				return str;
+			}
+
+			//			//网络监听
+			//			function onNetChange() {
+			//
+			//				　　
+			//				var nt = plus.networkinfo.getCurrentType();　　
+			//				switch(nt) {
+			//					case plus.networkinfo.CONNECTION_ETHERNET:
+			//					case plus.networkinfo.CONNECTION_WIFI:
+			//						mui.toast("当前网络为WiFi");　　　　　　
+			//						break;
+			//					case plus.networkinfo.CONNECTION_CELL2G:
+			//					case plus.networkinfo.CONNECTION_CELL3G:
+			//					case plus.networkinfo.CONNECTION_CELL4G:
+			//						mui.toast("当前网络非WiFi");　　　　　　
+			//						break;
+			//					default:
+			//						mui.toast("当前没有网络");　　　　　　
+			//						break;　　
+			//				}
+			//			}
+
+			//			function wainshow() {
+			//				if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+			//					mui.toast("网络异常，请检查网络设置！");
+			//				} 
+			//			}
+		</script>
+	</body>
+
+</html>

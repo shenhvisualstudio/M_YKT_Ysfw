@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="fonts/iconfont.css" rel="stylesheet" />
+		<link href="css/bass.css" rel="stylesheet" />
+		<link href="css/index.css" rel="stylesheet" />
+		<link href="css/loading.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div class="chatrecord" id="id_Index_Ul">
+			<ul class="chatrecord-content">
+				<li>
+					<a href="javascript:void(0)" id="transportationEvaluate">
+						<div class="News-icon-box">
+							<i class="icon-evaluate0"></i>
+						</div>
+						<div class="chatrecord-txt">
+							<span class="user-name">运输评价</span>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0)" id="transportationProblem">
+						<div class="News-icon-box">
+							<i class="icon-problem"></i>
+						</div>
+						<div class="chatrecord-txt">
+							<span class="user-name">运输问题</span>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0)" id="transportationComplain">
+						<div class="News-icon-box">
+							<i class="icon-complain"></i>
+						</div>
+						<div class="chatrecord-txt">
+							<span class="user-name">运输投诉</span>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function() {
+				var params = plus.webview.currentWebview();
+				//应用名称
+				var appName = params.appName;
+				//签名
+				var sign = params.sign;
+				//账户
+				var account = params.account;
+
+				document.getElementById('transportationEvaluate').addEventListener('tap', function() {
+					mui.openWindow({
+
+						url: "page/evaluate/toEvaluate.html",
+						id: "toEvaluate.html",
+
+						extras: {
+							account: account,
+						},
+						createNew: false,
+						show: {
+							autoShow: true,
+						},
+//						waiting: {
+//							autoShow: true,
+//							title: '正在加载...',
+//						}
+					});
+				});
+				
+				document.getElementById('transportationProblem').addEventListener('tap', function() {
+					mui.openWindow({
+
+						url: "page/problem/transportationProblem.html",
+						id: "transportProblem.html",
+
+						extras: {
+							account: account,
+						},
+						createNew: false,
+						show: {
+							autoShow: true,
+						},
+					});
+				});
+				
+				document.getElementById('transportationComplain').addEventListener('tap', function() {
+					mui.openWindow({
+
+						url: "page/complain/transportationComplain.html",
+						id: "transportationComplain.html",
+
+						extras: {
+							account: account,
+						},
+						createNew: false,
+						show: {
+							autoShow: true,
+						},
+					});
+				});
+			});
+		</script>
+	</body>
+
+</html>

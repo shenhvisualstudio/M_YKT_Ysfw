@@ -1,0 +1,100 @@
+
+ 
+ 
+ /*运输服务*/
+.chatrecord .chatrecord-content {
+	padding-bottom:65px;
+}
+.chatrecord .chatrecord-content a {
+	display:block;
+	padding: .4rem;
+    height: 3rem;
+	position:relative;	
+	border-bottom:3px solid #f1f1f1;
+}
+.chatrecord .chatrecord-content a img {
+	width:3rem;
+	height:3rem;
+	border-radius:50%;
+	float:left;
+ }
+.chatrecord .chatrecord-content a .News-icon-box{
+    width:3rem;
+    height:3rem;
+    float:left;
+    background-color: #27c1f7;
+    text-align: center;
+    line-height: 3rem;
+}
+
+
+.chatrecord .chatrecord-content a .News-icon-box i{
+    color: #fff;
+    font-size: 1.6rem;
+    line-height: 3rem;
+}
+
+.chatrecord-content a .chatrecord-txt span.user-name {
+    position: relative;
+    font-size: .9rem;
+    margin-left: 1rem;
+    text-align: center;
+    line-height: 3rem;
+}
+
+
+/*发布评论*/
+.contaniner{ position: relative; width: 100%;  overflow: hidden; margin: 0; padding-top: 2.5rem;} 
+.contaniner1{ position: relative; width: 100%;  overflow: hidden; margin: 0; background-color: white;} 
+/*.fixed-cont{margin-top: 5%;margin-bottom: 20%;}*/
+.assess{ width: 100%;}
+.assess p{ width: 100%; padding-left: 4%; padding-top: 0.5rem; padding-right: 4%; overflow: hidden; background-color: #fff; margin-top: 0%;}
+.assess p span{float: left; width: 10%; font-size: 1em;  height: 40px; font-weight: bold; padding-top: 0.8rem}
+.assess p textarea{float: right; border: 0; margin: 0; background-color: #F5F5F5; width: 84%; font-size: 1rem; color: black; padding-left: 0.4rem; padding-top: 0.6rem; height: 4.5rem;}
+
+.assess ul{ width: 100%; padding-left: 4%; padding-right: 4%; background-color: #fff;  overflow:hidden;margin-top: 0%;}
+.assess ul li {
+	float: left;
+	font-size: 1.35em;
+	color: #666;
+	line-height: 1.8; list-style-type: none;
+}
+.assess ul span{float: left; width: 14%; font-size: 14px;  height: 36px; font-weight: bold; padding-top: 1.2rem;}
+.assess ul .assess-right{ float: left; width: 76%; overflow: hidden;}
+.assess ul .assess-right img{width: 20%; padding-left: 4%; display: block; float: left;  padding-top: 0.2rem; padding-bottom: 0.2rem}
+.assess ul .assess-right_1{ float: left; width: 76%; overflow: hidden;}
+.assess ul .assess-right_1 img{width: 20%; padding-left: 4%; display: block; float: left;  padding-top: 0.2rem; padding-bottom: 0.2rem}
+.assess ul .assess-right_2{ float: left; width: 76%; overflow: hidden;}
+.assess ul .assess-right_2 img{width: 20%; padding-left: 4%; display: block; float: left;  padding-top: 0.2rem; padding-bottom: 0.2rem}
+.assess ul .assess-right_3{ float: left; width: 76%; overflow: hidden;}
+.assess ul .assess-right_3 img{width: 20%; padding-left: 4%; display: block; float: left;  padding-top: 0.2rem; padding-bottom: 0.2rem}
+.assess ul .assess-right_4{ float: left; width: 76%; overflow: hidden;}
+.assess ul .assess-right_4 img{width: 20%; padding-left: 4%; display: block; float: left;  padding-top: 0.2rem; padding-bottom: 0.2rem}
+
+
+.dynamic-list1 {
+    padding-top: 2.5rem;
+}
+.dynamic-list-head{ 
+    position: relative;
+    width: 100%;  
+    overflow: hidden; 
+    margin: 0;
+     padding-left: 4%; background-color: #FFFFFF;
+}
+.dynamic-list-head,
+.dynamic-list-head i{
+	line-height: 46px;
+}
+
+.dynamic-list-head i.dynamic-i-l{
+    position: absolute;
+    top: 0px;
+    font-size: 1.1rem;
+}
+.dynamic-list-head>b{     
+    margin-left: 1.4rem;
+    font-weight: normal;
+    font-weight: bold;
+    font-size: 1.0rem;
+}

@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>运输服务</title>
+
+    <link href="fonts/iconfont.css" rel="stylesheet" />
+    <link href="css/bass.css" rel="stylesheet" />
+    <link href="css/index.css" rel="stylesheet" />
+    <link href="css/loading.css" rel="stylesheet" />
+    
+
+</head>
+
+<body>
+    <div>
+        <header>
+            <div class="header">
+                <h1>运输服务</h1>
+            </div>
+        </header>
+        <div style="height: 2.5rem;"></div>
+    </div>
+    <!--loading页开始-->
+    <div class="container" id="loading">
+        <div class="loader loader-1" id="load">
+            <div class="loader-outter"></div>
+            <div class="loader-inner"></div>
+        </div>
+    </div>
+    <!--loading页结束-->
+    <div class="chatrecord" id="id_Index_Ul">
+        <!--<ul class="chatrecord-content">
+            <li>
+                <a href="javascript:void(0)" id="transportationEvaluate" onclick="TransportationEvaluate()">
+                    <div class="News-icon-box">
+                        <i class="icon-evaluate0"></i>
+                    </div>
+                    <div class="chatrecord-txt">
+                        <span class="user-name">运输评价</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" id="transportationEvaluate" onclick="Complain()">
+                    <div class="News-icon-box">
+                        <i class="icon-complain"></i>
+                    </div>
+                    <div class="chatrecord-txt">
+                        <span class="user-name">问题与投诉</span>
+                    </div>
+                </a>
+            </li>
+        </ul>-->
+    </div>
+
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+			//获取URL参数
+			var url = document.location;
+			if(url != "") {
+			    url = "?AppName=ZSFW&Sign=&Account=18651651079";
+			}
+
+			$("#loading").remove();
+
+			Request = GetRequest(url);
+			//应用名称
+			var appName = Request['AppName'];
+			//签名
+			var sign = Request['Sign'];
+			//账户
+			var account = Request['Account'];
+
+			setTimeout(function () {
+			    $("#loading").remove();
+                var html = [];
+                var strItem = renderItem();
+                html.push(strItem);
+                $("#id_Index_Ul").html(html.join(''));         
+            }, 200);
+
+            function renderItem() {
+
+                var str =         
+                   "<ul class=\"chatrecord-content\" id=\"id_Index_Ul\">\
+                     <li>\
+                          <a href=\"javascript:void(0)\" id=\"transportationEvaluate\" onclick=\"TransportationEvaluate()\">\
+                             <div class=\"News-icon-box\">\
+                                  <i class=\"icon-evaluate0\"></i>\
+                             </div>\
+                             <div class=\"chatrecord-txt\">\
+                                   <span class=\"user-name\">运输评价</span>\
+                             </div>\
+                          </a>\
+                      </li>\
+                      <li>\
+                          <a href=\"javascript:void(0)\" id=\"transportationEvaluate\" onclick=\"Problem()\">\
+                              <div class=\"News-icon-box\">\
+                                   <i class=\"icon-problem\"></i>\
+                              </div>\
+                              <div class=\"chatrecord-txt\">\
+                                   <span class=\"user-name\">运输问题</span>\
+                              </div>\
+                          </a>\
+                      </li>\
+                      <li>\
+                          <a href=\"javascript:void(0)\" id=\"transportationEvaluate\" onclick=\"Complain()\">\
+                              <div class=\"News-icon-box\">\
+                                   <i class=\"icon-complain\"></i>\
+                              </div>\
+                              <div class=\"chatrecord-txt\">\
+                                   <span class=\"user-name\">运输投诉</span>\
+                              </div>\
+                          </a>\
+                      </li>\
+                   </ul>";
+                return str;
+            }
+
+
+			function TransportationEvaluate() {
+			    var url = "page/evaluate/toEvaluate.html?" + "AppName=" + appName + "&" + "Sign=" + sign + "&" + "Account=" + account;
+				//      	var url = "page/evaluate/releaseEvaluate.html";
+				window.location.href = url;
+			}
+
+			function Problem() {
+			    var url = "page/problem/transportationFeedback.html?" + "AppName=" + appName + "&" + "Sign=" + sign + "&" + "Account=" + account;
+			    //      	var url = "page/evaluate/releaseEvaluate.html";
+			    window.location.href = url;
+			}
+
+			function Complain() {
+			    var url = "page/complain/transportationFeedback.html?" + "AppName=" + appName + "&" + "Sign=" + sign + "&" + "Account=" + account;
+			    //      	var url = "page/evaluate/releaseEvaluate.html";
+			    window.location.href = url;
+			}
+    </script>
+</body>
+
+</html>

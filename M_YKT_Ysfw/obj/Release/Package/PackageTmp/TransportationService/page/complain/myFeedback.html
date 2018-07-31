@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>我的投诉</title>
+
+    <link rel="stylesheet" href="../../css/loading.css" />
+    <link rel="stylesheet" href="../../fonts/iconfont.css" />
+    <link rel="stylesheet" href="../../css/bass.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/index.css" />
+
+</head>
+
+<body>
+    <div>
+        <div class="header">
+            我的投诉
+            <div class="header_left" onclick="window.history.go(-1)"><i class="icon-return"></i></div>
+        </div>
+    </div>
+    <!--loading页开始-->
+    <div class="container" id="loading">
+        <div class="loader loader-1" id="load">
+            <div class="loader-outter"></div>
+            <div class="loader-inner"></div>
+        </div>
+    </div>
+    <!--loading页结束-->
+    <div class="contaniner fixed-conta">
+        <section class="order" id="id_MyFeedbackList_Section">
+            <!--<dl>
+                <dt>
+                    <span><i class="icon-truck"></i></span>
+                    <time><a href="javascript:void(0)" onclick="FeedbackDeatil()"><i class="icon-detail"></i></a></time>
+                </dt>
+                <dd>
+                    <span class="width1"><i class="icon-user fl"></i>**0211<span>匿名</span></span>
+                    <span class="width2">待处理</span>
+                    <time class="width3">2015-11-15</time>
+                    <span class="text2">投诉</span>
+                    <span class="text3">码头公司&nbsp;&nbsp;&nbsp;&nbsp;东联公司</span><br>
+                    <span class="text3" style="display: inline-block; height: 80px;">装卸太慢了！<br>该公司现在装卸速度太慢了！</span>
+
+                </dd>
+                <dd>
+                    <input type="button" value="删除" onclick="javascript:location.href='wuliu.html'" class="fr" />
+                </dd>
+            </dl>-->
+        </section>
+    </div>
+
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script type="text/javascript" src="../../js/config.js"></script>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <!--<script type="text/javascript" src="../../js/mui.min.js"></script>-->
+    <script type="text/javascript">
+			//获取URL参数
+			var url = document.location.search;
+			if(url == "") {
+				url = "?AppName=ZSFW&Sign=&Account=15033109356";
+			}
+
+			Request = GetRequest(url);
+			//应用名称
+			var appName = Request['AppName'];
+			//签名
+			var sign = Request['Sign'];
+			//账户
+			var account = Request['Account'];
+			//隐藏手机号
+			var hideMobile = "***" + account.substring(account.length - 4, account.length);
+
+			$.ajax({
+				type: "get",
+				url: GetURL_GetMyFeedbackList(),
+				data: {
+					'AppName': appName,
+					'Sign': sign,
+					'Account': account,
+				},
+
+				contentType: "application/json; charset=utf-8",
+				cache: true,
+				dataType: "json",
+
+				success: function(data) {
+
+					if(true == data.IsSuccess) {
+						if(data.Data == null) {
+
+							$("#loading").remove();
+
+							Toast('无反馈内容', 2000);
+							setTimeout(function() {
+								return;
+							}, 2000);
+
+							return;
+
+						}
+
+						var html = [];
+						for(var i = 0; i < data.Data.length; i++) {
+							var item = data.Data[i];
+							var strItem = renderItem(item);
+							if(item[8] == "已解决") {
+								strItem = strItem.replace("width2", "width4");
+							}
+							html.push(strItem);
+
+						}
+						$("#loading").remove();
+						$("#id_MyFeedbackList_Section").html(html.join(''));
+						
+
+					} else {
+						$("#loading").remove();
+						Toast("网络未连接", 2000);
+						setTimeout(function () {
+						    return;
+						}, 2000);
+						return;
+					}
+				},
+				error: function(err) {
+					$("#loading").remove();
+					Toast("网络未连接", 2000);
+					setTimeout(function () {
+					    return;
+					}, 2000);
+					return;
+				}
+			});
+
+			function renderItem(data) {
+
+				var str =
+				"<dl id='id_Dl" + data[0] +"'>\
+                    <dt>\
+                        <span><i class=\"icon-truck\"></i></span>\
+                        <time><a href=\"javascript:void(0)\" onclick=\"FeedbackDeatil('" + data[0] + "','" + data[8] + "')\"><i class=\"icon-detail\"></i></a></time>\
+                    </dt>\
+                    <dd>\
+                        <span class=\"width1\"><i class=\"icon-user fl\"></i>" + hideMobile + "<span>" + data[7] + "</span></span>\
+                        <span class=\"width2\">" + data[8] + "</span>\
+                        <time class=\"width3\">" + data[6] + "</time>\
+                        <span class=\"text2\">" + data[1] + "</span>\
+                        <span class=\"text3\">" + data[2] + "&nbsp;&nbsp;&nbsp;&nbsp;" + data[3] + "</span><br>\
+                        <span class=\"text3\" style=\"display: inline-block; height: 80px;\">" + data[9] + "<br>" + data[10] + "</span>\
+                    </dd>\
+                    <dd>\
+                        <input type=\"button\" value=\"删除\" class=\"fr\" onclick=\"Delete('" + data[0] + "');return false\" />\
+                     </dd>\
+                </dl>"
+				return str;
+			}
+
+			//反馈详情
+			function FeedbackDeatil(id, finish) {
+			    var url = "";
+			    if (finish == "待处理") {
+			        url = "feedbackDetail.html?" + "AppName=" + appName + "&" + "Sign=" + sign + "&" + "Account=" + account + "&" + "Id=" + id;
+			    } else {
+			        url = "feedbackDetail_Handled.html?" + "AppName=" + appName + "&" + "Sign=" + sign + "&" + "Account=" + account + "&" + "Id=" + id;
+			    }
+				
+				window.location.href = url;
+			}
+
+			//删除
+			function Delete(id) {
+
+				var isDelete = window.confirm("确定删除?");
+
+				if(isDelete == false) {
+
+					return;
+				}
+
+				$.ajax({
+				    type: "get",
+				    url: GetURL_DeleteMyFeedback(),
+				    data: {
+				        'AppName': appName,
+				        'Sign': sign,
+				        'Account': account,
+				        'Id': id,
+				    },
+
+				    contentType: "application/json; charset=utf-8",
+				    cache: false,
+				    dataType: "json",
+
+				    success: function (data) {
+
+				        if (true == data.IsSuccess) {
+				            if (data.Data == null) {
+
+				                $("#id_Dl" + id).remove();
+
+				                Toast(data.Message, 2000);
+				                setTimeout(function () {
+				                    return;
+				                }, 2000);
+
+				                return;
+
+				            }
+				        } else {
+				            alert(data.Message);
+				        }
+				    },
+				    error: function (err) {
+				        alert("请求失败！" + err);
+				    }
+				});		
+			}
+
+
+			////Android物理返回键监听
+			//(function ($, doc) {
+			//    var backButtonPress = 0;
+			//    $.back = function (event) {
+			//        backButtonPress++;
+			//        if (backButtonPress == 1) {
+			//            window.history.go(-1);
+			//        }
+			//        return false;
+			//    };
+			//}(mui, document));
+    </script>
+</body>
+
+</html>

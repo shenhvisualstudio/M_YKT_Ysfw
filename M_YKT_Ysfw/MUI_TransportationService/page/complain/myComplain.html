@@ -1,0 +1,298 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<title>我的投诉</title>
+
+		<link rel="stylesheet" href="../../fonts/iconfont.css" />
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<link rel="stylesheet" href="../../css/style.css" />
+		<link rel="stylesheet" href="../../css/index.css" />
+
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav" style="background: #27c1f7;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title" style="color: white;">我的投诉</h1>
+			<a class="mui-icon mui-pull-right" id="id_HistoryComplain_A" style="font-size: 15px; line-height: 28px; color: white;">历史投诉</a>
+		</header>
+
+		<div class="mui-content">
+			<div id="pullrefresh" class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<section class="order">
+
+					</section>
+				</div>
+			</div>
+		</div>
+
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/md5-min.js" ></script>
+		<script type="text/javascript " src="../../js/config.js "></script>
+		<script type="text/javascript " src="../../js/common.js "></script>
+		<script type="text/javascript">
+			//账户
+			var account = "";
+			//隐藏手机号
+			var hideMobile = "";
+			//起始行
+			var startRow = 1;
+			//结束行
+			var endRow = 5;
+			//行数
+			var count = 10;
+			//间距
+			var num = 1;
+
+			mui.init({
+				//				swipeBack: true,
+				//				gestureConfig: {
+				//					swipe: true 
+				//				},
+
+				pullRefresh: {
+					container: '#pullrefresh',
+					up: {
+						height: 50, //可选.默认50.触发上拉加载拖动距离
+						auto: false, //可选,默认false.自动上拉加载一次
+						contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+						contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+						callback: pullupRefresh //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					}
+				}
+			});
+
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					plusReady();
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 1000);
+
+				});
+			} else {
+				mui.plusReady(function() {
+					plusReady();
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+
+			function plusReady() {
+
+				var params = plus.webview.currentWebview();
+				//账户
+				account = params.account;
+				//隐藏手机号
+				hideMobile = "***" + account.substring(account.length - 4, account.length);
+
+				//问题详情
+				mui(".order").on('tap', 'dl time a', function() {
+					var problemId = this.getAttribute("param1");
+					var finish = this.getAttribute("param2");
+
+					if(finish == "待受理" || finish == "已受理") {
+						mui.openWindow({
+							url: "complainDetail.html",
+							id: "complainDetail.html",
+							extras: {
+								account: account,
+								problemId: problemId,
+							},
+							createNew: false,
+							show: {
+								autoShow: true,
+							},
+						});
+					} else {
+						mui.openWindow({
+							url: "complainDetail_Handled.html",
+							id: "complainDetail_Handled.html",
+							extras: {
+								account: account,
+								problemId: problemId,
+							},
+							createNew: false,
+							show: {
+								autoShow: true,
+							},
+						});
+					}
+
+				})
+
+				//删除
+				mui(".order").on('tap', 'dl .fr_delete', function() {
+					var problemId = this.getAttribute("param");
+
+					var btnArray = ['取消', '确定'];
+					var dl = this.parentNode.parentNode;
+					mui.confirm("确定删除？", "", btnArray, function(e) {
+						if(e.index == 1) {
+
+							var objectList = new Array();
+							objectList.push(new KeyValue("AppName", Sys.APP_CODE));
+							objectList.push(new KeyValue("Account", account));
+							objectList.push(new KeyValue("Id", problemId));
+
+							//删除后台数据
+							mui.ajax({
+								type: 'POST',
+								data: {
+									'AppName': Sys.APP_CODE,
+									'Sign': GetSign(objectList),
+									'Account': account,
+									'Id': problemId,
+								},
+								url: Url.HTTP_DELETE_MYCOMPLAIN_URL,
+								timeout: 10000, //超时时间设置为10秒；
+								dataType: 'json', //服务器返回json格式数据
+
+								success: function(data) {
+
+									if(data.IsSuccess) {
+
+										if(data.Data == null) {
+											//删除列表元素
+											dl.parentNode.removeChild(dl);
+											mui.toast(data.Message);
+										}
+									} else {
+										console.log(data.Message);
+										mui.toast(data.Message);
+									}
+								},
+								error: function(xhr, type, errorThrown) {
+
+									console.log(errorThrown);
+									mui.toast("网络未连接");
+								}
+
+							});
+						}
+					});
+				})
+
+				//历史投诉
+				document.getElementById('id_HistoryComplain_A').addEventListener('tap', function() {
+					mui.openWindow({
+
+						url: "historyComplain.html",
+						id: "historyComplain.html",
+
+						extras: {
+							account: account,
+						},
+						createNew: false,
+						show: {
+							autoShow: true,
+						},
+					});
+				});
+			}
+
+			/*
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+
+				startRow = startRow + (num - 1) * count;
+				endRow = startRow + count - 1;
+				num++;
+
+				var objectList = new Array();
+				objectList.push(new KeyValue("AppName", Sys.APP_CODE));
+				objectList.push(new KeyValue("StartRow", startRow));
+				objectList.push(new KeyValue("EndRow", endRow));
+				objectList.push(new KeyValue("Account", account));
+
+				mui.ajax({
+					type: 'POST',
+					data: {
+						'AppName': Sys.APP_CODE,
+						'Sign': GetSign(objectList),
+						'StartRow': startRow,
+						'EndRow': endRow,
+						'Account': account,
+					},
+					url: Url.HTTP_GET_MYCOMPLAIN_LIST_URL,
+					timeout: 10000, //超时时间设置为10秒；
+					dataType: 'json', //服务器返回json格式数据
+
+					success: function(data) {
+
+						if(data.IsSuccess) {
+
+							if(data.Data != null) {
+								//添加列表
+								var table = document.body.querySelector('.order');
+								render(data.Data, table);
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+							} else {
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+							}
+						} else {
+							console.log(data.Message);
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+							mui.toast(data.Message);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+
+						console.log(errorThrown);
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+						mui.toast("网络未连接");
+					}
+				});
+			}
+
+			//添加列表
+			function render(data, table) {
+
+				for(var i = 0; i < data.length; i++) {
+					var item = data[i];
+					var dl = document.createElement('dl');
+					var strItem = renderItem(item)
+					if(item[8] == "已解决") {
+						strItem = strItem.replace("width2", "width4");
+					} else if(item[8] == "已评价") {
+						strItem = strItem.replace("width2", "width5");
+					} else if(item[8] == "已受理") {
+						strItem = strItem.replace("width2", "width6");
+					}
+					dl.innerHTML = strItem;
+					table.appendChild(dl);
+				}
+			}
+
+			//添加列表元素
+			function renderItem(data) {
+				var str =
+					"<dl>\
+				    <div style=\"height: 0.5rem; background-color: #efeff4;\"></div>\
+                    <dt>\
+                        <span><i class=\"icon-truck\"></i></span>\
+                        <time><a id=\"id_Evaluate_Detail_A\" style=\"color: black;\" param1='" + data[0] + "' param2='" + data[8] + "')\"><i class=\"icon-detail\"></i></a></time>\
+                    </dt>\
+                    <dd>\
+                        <span class=\"width1\"><i class=\"icon-user fl\"></i>" + hideMobile + "<span style=\"color: black; font-size: 0.96rem;\">" + data[7] + "</span></span>\
+                        <span class=\"width2\">" + data[8] + "</span>\
+                        <time class=\"width3\">" + data[6] + "</time>\
+                        <span class=\"text2\">" + data[1] + "</span>\
+                        <span class=\"text3\">" + data[2] + "&nbsp;&nbsp;&nbsp;&nbsp;" + data[3] + "</span><br>\
+                        <span class=\"text3\" style=\"display: inline-block; height: 80px;\">" + data[9] + "<br>" + data[10] + "</span>\
+                    </dd>\
+                    <dd>\
+                        <input type=\"button\" value=\"删除\" class=\"fr_delete\"  id=\"id_Delete_Input\"  param='" + data[0] + "'/>\
+                     </dd>\
+                </dl>";
+				return str;
+			}
+		</script>
+	</body>
+
+</html>

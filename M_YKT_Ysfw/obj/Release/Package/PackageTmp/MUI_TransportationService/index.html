@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="css/mui.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav" style="background: #27c1f7;">
+        <!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>-->
+        <h1 class="mui-title" style="color: white;">运输服务</h1>
+        <!--<a id="info" class="mui-icon mui-icon-bars mui-pull-right" style="color: #999;"></a>-->
+    </header>
+    <script type="text/javascript" src="js/md5-min.js"></script>
+    <script type="text/javascript" src="js/config.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script src="js/mui.min.js"></script>
+    <script type="text/javascript">
+			////获取URL参数
+			//var url = document.location;
+			//if(url == "") {
+			//	url = "?AppName=ZSFW&Sign=&Account=18651651079";
+			//}
+
+			//Request = GetRequest(url);
+			////应用名称
+			//var appName = Request['AppName'];
+			////签名
+			//var sign = Request['Sign'];
+			////账户
+            //var account = Request['Account'];
+
+            //应用名称
+            var appName = GetQueryString("AppName");
+            //签名
+            var sign = GetQueryString("Sign");
+            //账户
+            var account = GetQueryString("Account");
+
+			var objectList = new Array();
+			objectList.push(new KeyValue("AppName", appName));
+			objectList.push(new KeyValue("Account", account));
+
+			if(sign != GetSign(objectList)) {
+				alert("无权限访问");
+			} else {
+				mui.init({
+					keyEventBind: {
+						backbutton: false //关闭back按键监听
+					},
+
+					//添加子页面
+					subpages: [{
+					    url: 'http://218.92.115.51/portal/m_index_sso.jsp?userid=lihaigang&pwd=888888',
+						id: 'sub_index.html',
+						styles: {
+							top: '45px', //mui标题栏默认高度为45px；
+							bottom: '0px' //默认为0px，可不定义；
+						},
+						extras: {
+							appName: appName,
+							sign: sign,
+							account: account,
+						}
+					}]
+				});
+			}
+    </script>
+</body>
+
+</html>

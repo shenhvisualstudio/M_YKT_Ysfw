@@ -1,0 +1,290 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>待评价</title>
+
+    <link rel="stylesheet" href="../../css/loading.css" />
+    <link rel="stylesheet" href="../../fonts/iconfont.css" />
+    <link rel="stylesheet" href="../../css/bass.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/index.css" />
+</head>
+
+<body>
+    <div>
+        <div class="header">
+            待评价
+            <div class="header_left" onclick="window.history.go(-1)"><i class="icon-return"></i></div>
+            <div class="header_right" id="id_MyEvaluate" onclick="MyEvaluate()">我的评价</div>
+        </div>
+    </div>
+    <!--loading页开始-->
+    <div class="container" id="loading">
+        <div class="loader loader-1" id="load">
+            <div class="loader-outter"></div>
+            <div class="loader-inner"></div>
+        </div>
+    </div>
+    <!--loading页结束-->
+    <div class="contaniner fixed-conta">
+        <section class="order" id="id_ToEvaluateList_Section">
+            <!--<dl>
+                <dt>
+                    <span id="id_VehicleAttestNo_Span"><i class="icon-uniE93D"></i>1301170082</span>
+                    <time id="id_Time_Time">2015-11-15 22:55</time>
+                </dt>
+                <dd>
+                    <span class="fl text1" id="id_FullOrEmpty_Span">集港</span>
+                    <span class="fl text1a" id="id_Vessel_Span">紫玉兰</span>
+                    <span class="fl text1b" id="id_cargo_Span">小麦</span>
+                    <span class="fr text1c" id="id_vehicle_Span">苏G12A34黄</span>
+
+                </dd>
+
+                <dd>
+                    <input type="button" value="评价" class="order-que" onclick="Evaluate()" />
+                    <input type="button" value="删除" class="fl" onclick="Delete()" />
+
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <span><i class="icon-uniE93D"></i>1301170082</span>
+                    <time>2015-11-15 22:55</time>
+                </dt>
+                <dd>
+                    <span class="fl text1">集港</span>
+                    <span class="fl text1">紫玉兰</span>
+                    <span class="fl text1">小麦</span>
+                    <span class="fr text1">苏G12A34</span>
+
+                </dd>
+
+                <dd>
+                    <input type="button" value="评价" class="order-que" />
+                    <input type="button" value="删除" onclick="javascript:location.href='wuliu.html'" class="fl" />
+
+                </dd>
+            </dl>-->
+        </section>
+    </div>
+
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script type="text/javascript" src="../../js/config.js"></script>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <!--<script type="text/javascript" src="../../js/mui.min.js"></script>-->
+    <script type="text/javascript">
+			//获取URL参数
+			var url = document.location.search;
+			if(url == "") {
+				url = "?AppName=ZSFW&Sign=&Account=15033109356";
+			}
+
+			Request = GetRequest(url);
+			//应用名称
+			var appName = Request['AppName'];
+			//签名
+			var sign = Request['Sign'];
+			//账户
+			var account = Request['Account'];
+
+            //获取上一个已评价
+			$.ajax({
+			    type: "get",
+			    url: GetURL_GetLastEvaluated(),
+			    data: {
+			        'AppName': appName,
+			        'Sign': sign,
+			        'Account': account,
+			    },
+
+			    contentType: "application/json; charset=utf-8",
+			    cache: false,
+			    dataType: "json",
+
+			    success: function (data) {
+
+			        if (true == data.IsSuccess) {
+			            if (data.Data != null) {
+
+			                $("#id_Dl" + data.Data).remove();
+			            }
+			        } else {
+			            alert(data.Message);
+			        }
+			    },
+			    error: function (err) {
+			        Toast("网络未连接", 2000);
+			        setTimeout(function () {
+			            return;
+			        }, 2000);
+			        return;
+			    }
+			});
+
+            //获取待评估列表
+			$.ajax({
+				type: "get",
+				url: GetURL_GetToEvaluateList(),
+				data: {
+					'AppName': appName,
+					'Sign': sign,
+					'Account': account,
+				},
+
+				contentType: "application/json; charset=utf-8",
+				cache: true,
+				dataType: "json",
+
+				success: function(data) {
+				
+					if(true == data.IsSuccess) {
+					    if (data == null) {
+
+					        $("#loading").remove();
+
+					        Toast('没有待评价的运输申报', 2000);
+					        setTimeout(function () {
+					            return;
+					        }, 2000);
+
+					        return;
+						}
+
+						var html = [];
+						for(var i = 0; i < data.Data.length; i++) {
+							var item = data.Data[i];
+							html.push(renderItem(item));
+						}
+						$("#loading").remove();
+						$("#id_ToEvaluateList_Section").html(html.join(''));
+					} else {
+					    $("#loading").remove();
+					    Toast("网络未连接", 2000);
+					    setTimeout(function () {
+					        return;
+					    }, 2000);
+					    return;
+					}
+				},
+				error: function (err) {
+				    $("#loading").remove();
+				    Toast("网络未连接", 2000);
+				    setTimeout(function () {
+				        return;
+				    }, 2000);
+				    return;
+				}
+			});
+
+			function renderItem(data) {
+				var str =
+			   "<dl id='id_Dl" + data[0] + "'>\
+					<dt>\
+					<span id=\"id_VehicleAttestNo_Span\"><i class=\"icon-truck\"></i>" + data[1] + "</span>\
+					<time id=\"id_Time_Time\">" + data[6] + "</time>\
+				</dt>\
+					<dd>\
+						<span class=\"fl text1\" id=\"id_FullOrEmpty_Span\">" + data[2] + "</span>\
+						<span class=\"fl text1a\" id=\"id_Vessel_Span\">" + data[3] + "</span>\
+						<span class=\"fl text1b\" id=\"id_cargo_Span\">" + data[4] + "</span>\
+						<span class=\"fr text1c\" id=\"id_vehicle_Span\">" + data[5] + "</span>\
+					</dd>\
+					<dd>\
+						<input type=\"button\" value=\"评价\" class=\"order-que\" onclick=\"Evaluate('" + data[0] + "')\" />\
+						<input type=\"button\" value=\"删除\" class=\"fl\" onclick=\"Delete('" + data[0] + "');return false\" />\
+					</dd>\
+				</dl>";
+				return str;
+			}
+
+			//我的评价
+			function MyEvaluate() {
+			    var url = "myEvaluate.html?" + "AppName=" + appName + "&" + "Sign=" + sign + "&" + "Account=" + account;
+				//      	var url = "page/evaluate/releaseEvaluate.html";
+				window.location.href = url;
+			}
+
+			//评价
+			function Evaluate(id) {
+
+			    var url = "releaseEvaluate.html?" + "AppName=" + appName + "&" + "Sign=" + sign + "&" + "Account=" + account + "&" + "Id=" + id;
+				//      	var url = "page/evaluate/releaseEvaluate.html";
+			    window.location.href = url;
+			}
+
+			//删除
+			function Delete(id) {
+
+				var isDelete = window.confirm("确定删除?");
+
+				if(isDelete == false) {
+
+					return;
+				}
+
+				$.ajax({
+				    type: "get",
+				    url: GetURL_DeleteToEvaluate(),
+				    data: {
+				        'AppName': appName,
+				        'Sign': sign,
+				        'Account': account,
+				        'Id': id,
+				    },
+
+				    contentType: "application/json; charset=utf-8",
+				    cache: false,
+				    dataType: "json",
+
+				    success: function (data) {
+
+				        if (true == data.IsSuccess) {
+				            if (data.Data == null) {
+
+				                $("#id_Dl" + id).remove();
+
+				                Toast(data.Message, 2000);
+				                setTimeout(function () {
+				                    return;
+				                }, 2000);
+
+				                return;
+				            }
+				        } else {
+				            Toast("网络未连接", 2000);
+				            setTimeout(function () {
+				                return;
+				            }, 2000);
+				            return;
+				        }
+				    },
+				    error: function (err) {
+				        Toast("网络未连接", 2000);
+				        setTimeout(function () {
+				            return;
+				        }, 2000);
+				        return;
+				    }
+				});
+			}
+
+            ////Android物理返回键监听
+			//(function($, doc) {
+			//    var backButtonPress = 0;
+			//    $.back = function (event) {
+			//        backButtonPress++;
+			//        if (backButtonPress == 1) {
+			//            window.history.go(-1);
+			//        }
+			//        return false;
+			//    };
+			//}(mui, document));
+
+    </script>
+</body>
+
+</html>

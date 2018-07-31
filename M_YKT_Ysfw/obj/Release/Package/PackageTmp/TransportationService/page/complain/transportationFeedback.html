@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>运输投诉</title>
+
+    <link rel="stylesheet" href="../../css/loading.css" />
+    <link rel="stylesheet" href="../../fonts/iconfont.css" />
+    <link rel="stylesheet" href="../../css/bass.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/index.css" />
+</head>
+
+<body>
+    <div>
+        <div class="header">
+            运输投诉
+            <div class="header_left" onclick="window.history.go(-1)"><i class="icon-return"></i></div>
+            <div class="header_right" id="id_MyFeedback" onclick="MyFeedback()">我的投诉</div>
+        </div>
+    </div>
+    <!--loading页开始-->
+    <div class="container" id="loading">
+        <div class="loader loader-1" id="load">
+            <div class="loader-outter"></div>
+            <div class="loader-inner"></div>
+        </div>
+    </div>
+    <!--loading页结束-->
+    <div class="contaniner fixed-conta">
+        <section class="order" id="id_TransportationFeedback_Section">
+            <div class="divv">
+                <div style="height: 0.5rem;"></div>
+                <div class="dynamic-list">
+                    <span class="fl text1">投诉对象<span class="color2_1">*</span></span>
+                    <span class="fl text8" id="id_FeedbackObject_Span">
+                        <select name="state" id="id_FeedbackObject_Select">
+                            <option value='' disabled selected style='display:none;'>--请选择--</option>  
+                            <option value="1">&nbsp;&nbsp;公路港</option>
+                            <option value="2">&nbsp;&nbsp;码头公司</option>
+                            <option value="3">&nbsp;&nbsp;港区卡口</option>
+                            <option value="9">&nbsp;&nbsp;其他</option>
+                        </select>
+                    </span>
+                </div>
+                <div class="line"></div>
+                <div class="dynamic-list">
+                    <span class="fl text1">公司名称</span>
+                    <span class="fl text8">
+                        <select name="state" id="id_Company_Select" disabled selected>
+                            <option value='' disabled selected style='display:none;'>--请选择--</option>  
+                            <option value="405">&nbsp;&nbsp;新苏港码头</option>
+                            <option value="111">&nbsp;&nbsp;东源公司</option>
+                            <option value="39">&nbsp;&nbsp;东泰公司</option>
+                            <option value="191">&nbsp;&nbsp;东泰公司</option>
+                            <option value="77">&nbsp;&nbsp;东联公司</option>
+                            <option value="2200">&nbsp;&nbsp;新海湾码头</option>
+                            <option value="5251">&nbsp;&nbsp;新东润公司</option>
+                        </select>
+                    </span>
+                </div>
+                <div class="line1"></div>
+                <div class="dynamic-list">
+                    <span class="fl text1">投诉标题</span>
+                    <span class="fl text8">
+                        <textarea rows="1" placeholder="写下你的标题" id="id_FeedBackTitle_Textarea"></textarea>
+                    </span>
+                </div>
+                <div class="line"></div>
+                <div class="dynamic-list">
+                    <span class="fl text1">投诉说明<span class="color2_1">*</span></span>
+                    <span class="fl text9">
+                        <textarea rows="5" placeholder="写下你的说明" id="id_FeedBackExplain_Textarea"></textarea>
+                    </span>
+                </div>
+                <div class="line1"></div>
+                <div class="dynamic-list">
+                    <span class="fl text1">联系电话</span>
+                    <span class="fl text8">
+                        <textarea rows="1" placeholder="请输入联系电话" id="id_PhoneNum_Textarea"></textarea>
+                    </span>
+                </div>
+                <div class="line1"></div>
+                <div class="dynamic-list">
+                    <span class="fl text8">
+                        <input name="anonymous_Checkbox" type="checkbox" id="id_Aanonymous_Checkbox" class="checkbox" />&nbsp;&nbsp;匿名
+                    </span>
+                </div>
+                <div class="dynamic-list">
+                    <div>
+                        <input type="button" value="提交" class="order-que1" onclick="Submit()" />
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script type="text/javascript" src="../../js/config.js"></script>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <!--<script type="text/javascript" src="../../js/mui.min.js"></script>-->
+    <script type="text/javascript">
+			//获取URL参数
+			var url = document.location.search;
+			if(url == "") {
+				url = "?AppName=ZSFW&Sign=&Account=15033109356";
+			}
+
+			Request = GetRequest(url);
+			//应用名称
+			var appName = Request['AppName'];
+			//签名
+			var sign = Request['Sign'];
+			//账户
+			var account = Request['Account'];
+
+			//var html = [];
+			//var strItem = renderItem();
+			//html.push(strItem);
+			//$("#id_TransportationFeedback_Section").html(html.join(''));
+			$("#id_Company_Select").css("opacity", "0.4");
+			$("#loading").remove();
+
+			$('#id_FeedbackObject_Select').change(function () {
+
+			    var feedbackObject = $("#id_FeedbackObject_Select").val();
+			    if (feedbackObject == "2") {
+			        $("#id_Company_Select").attr("disabled", false);
+			        $("#id_Company_Select").css("opacity", "1");
+			    }
+			    else {
+			        $('#id_Company_Select').attr("disabled", true);
+			        $("#id_Company_Select").css("opacity", "0.4");
+			    }
+			})
+
+			//提交
+			function Submit() {
+
+				//反馈类型
+				var feedbackType = "0";
+				//反馈对象
+				var feedbackObject = $("#id_FeedbackObject_Select").val();
+				feedbackObject = feedbackObject == null ? "" : feedbackObject;
+				//公司名称
+				var company = $("#id_Company_Select").val();
+				company = company == null ? "" : company;
+				//反馈标题
+				var feedBackTitle = $("#id_FeedBackTitle_Textarea").val();
+				//反馈说明
+				var feedBackExplain = $("#id_FeedBackExplain_Textarea").val()
+				//联系电话
+				var phoneNum = $("#id_PhoneNum_Textarea").val()
+				//匿名反馈
+				var anonymous = $("input[name='anonymous_Checkbox']:checked").val();
+				anonymous = anonymous == "on" ? "1" : "0";
+
+				if (feedbackObject.length == 0 || feedBackExplain.length == 0 || (feedbackObject == "2" && company.length == 0)) {
+				    Toast('内容不完整', 2000);
+				    setTimeout(function () {
+				        return;
+				    }, 2000);
+				}
+				else {
+
+				    $.ajax({
+				        type: "get",
+				        url: GetURL_SubmitFeedback(),
+				        data: {
+				            'AppName': appName,
+				            'Sign': sign,
+				            'Account': account,
+				            'FeedbackType': feedbackType,
+				            'FeedbackObject': feedbackObject,
+				            'Company': company,
+				            'FeedBackTitle': feedBackTitle,
+				            'FeedBackExplain': feedBackExplain,
+				            'PhoneNum': phoneNum,
+				            'Anonymous': anonymous,
+				        },
+
+				        contentType: "application/json; charset=utf-8",
+				        cache: false,
+				        dataType: "json",
+
+				        success: function (data) {
+				            if (true == data.IsSuccess) {
+
+				                Toast(data.Message, 2000);
+				                setTimeout(function () {
+				                    Toast("正在跳转", 2000);
+				                    setTimeout(function () {
+				                        window.history.back(-1);
+				                    }, 2000);
+				                }, 2000);
+
+				            } else {
+				                Toast("网络未连接", 2000);
+				                setTimeout(function () {
+				                    return;
+				                }, 2000);
+				                return;
+				            }
+				        },
+				        error: function (err) {
+				            Toast("网络未连接", 2000);
+				            setTimeout(function () {
+				                return;
+				            }, 2000);
+				            return;
+				        }
+				    });
+				}
+			}
+
+			function renderItem() {
+
+			    var str =""
+
+			    return str;
+			}
+
+
+			//我的反馈
+			function MyFeedback() {
+			    var url = "myFeedback.html?" + "AppName=" + appName + "&" + "Sign=" + sign + "&" + "Account=" + account + "&" + "Fresh=" + Math.random();
+			    window.location.href = url;
+			}
+
+			////Android物理返回键监听
+			//(function ($, doc) {
+			//    var backButtonPress = 0;
+			//    $.back = function (event) {
+			//        backButtonPress++;
+			//        if (backButtonPress == 1) {
+			//            window.history.go(-1);
+			//        }
+			//        return false;
+			//    };
+			//}(mui, document));
+
+    </script>
+
+</body>
+
+</html>

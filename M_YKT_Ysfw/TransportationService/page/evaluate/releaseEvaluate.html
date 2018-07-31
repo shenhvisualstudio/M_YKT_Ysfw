@@ -1,0 +1,413 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>发布评价</title>
+
+    <link rel="stylesheet" href="../../css/loading.css" />
+    <link rel="stylesheet" href="../../fonts/iconfont.css" />
+    <link rel="stylesheet" href="../../css/bass.css" />
+    <link rel="stylesheet" href="../../css/index.css" />
+</head>
+
+<body>
+    <div>
+        <div class="header">
+            发布评价
+            <div class="header_left" onclick="window.history.go(-1)"><i class="icon-return"></i></div>
+            <div class="header_right" id="open_sta" onclick="Release()">发布</div>
+        </div>
+    </div>
+    <!--loading页开始-->
+    <div class="container" id="loading">
+        <div class="loader loader-1" id="load">
+            <div class="loader-outter"></div>
+            <div class="loader-inner"></div>
+        </div>
+    </div>
+    <!--loading页结束-->
+
+    <div id="id_ReleaseEvaluate_Div">
+        <!--<div class="dynamic-list-head dynamic-list1">
+            <i class="dynamic-i-l icon-evaluate dynamic-list1"></i>
+            <b>服 务 评 价</b>
+        </div>
+        <div style="height: 0.2rem; background-color: #f2f2f2;"></div>
+        <div style="height: 0.5rem;"></div>
+        <div class="contaniner1">
+            <section class="assess">
+                <p>
+                    <span>停车<br />办证</span>
+                    <textarea rows="2" placeholder="写下你的评论吧" id="id_ParkingCard_Textarea"></textarea>
+                </p>
+            </section>
+            <div style="height: 0.3rem;"></div>
+            <section class="assess">
+                <p>
+                    <span>放行<br />装卸</span>
+                    <textarea rows="2" placeholder="写下你的评论吧" id="id_ReleaseCargo_Textarea"></textarea>
+                </p>
+            </section>
+            <div style="height: 0.3rem;"></div>
+            <section class="assess">
+                <p>
+                    <span>港区<br />卡口</span>
+                    <textarea rows="2" placeholder="写下你的评论吧" id="id_PortBayonet_Textarea"></textarea>
+                </p>
+            </section>
+        </div>
+        <div style="height: 0.5rem;"></div>
+        <div style="height: 0.5rem; background-color: #f2f2f2;"></div>
+
+        <div class="dynamic-list-head">
+            <i class="dynamic-i-l icon-score"></i>
+            <b>服 务 评 分</b>
+        </div>
+        <div style="height: 0.2rem; background-color: #f2f2f2;"></div>
+        <div style="height: 0.5rem;"></div>
+        <div class="contaniner1">
+            <section class="assess">
+                <ul>
+                    <span>服务<br />态度</span>
+                    <li class="assess-right_1">
+                        <img onclick="level_1(1)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level_1(2)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level_1(3)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level_1(4)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level_1(5)" src="../../images/detail-iocn01.png" />
+                    </li>
+                </ul>
+            </section>
+            <section class="assess">
+                <ul>
+                    <span>放行<br />速度</span>
+                    <li class="assess-right_2">
+                        <img onclick="level_2(1)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level_2(2)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level_2(3)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level_2(4)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level_2(5)" src="../../images/detail-iocn01.png" />
+                    </li>
+                </ul>
+            </section>
+            <section class="assess">
+                <ul>
+                    <span>卸载<br />速度</span>
+                    <li class="assess-right_3">
+                        <img onclick="level_3(1)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level_3(2)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level_3(3)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level_3(4)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level_3(5)" src="../../images/detail-iocn01.png" />
+                    </li>
+                </ul>
+            </section>
+            <section class="assess">
+                <ul>
+                    <span>总体<br />评价</span>
+                    <li class="assess-right_4">
+                        <img onclick="level_4(1)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level_4(2)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level_4(3)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level_4(4)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level_4(5)" src="../../images/detail-iocn01.png" />
+                    </li>
+                </ul>
+            </section>
+        </div>
+        <div style="height: 0.5rem;"></div>
+        <div style="height: 0.5rem; background-color: #f2f2f2;"></div>-->
+    </div>
+
+
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script type="text/javascript" src="../../js/config.js"></script>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <!--<script type="text/javascript" src="../../js/mui.min.js"></script>-->
+    <script type="text/javascript">
+			//获取URL参数
+			var url = document.location.search;
+			if(url == "") {
+			    url = "?AppName=ZSFW&Sign=&Account=13961342811&Id=679";
+			}
+
+			Request = GetRequest(url);
+			//应用名称
+			var appName = Request['AppName'];
+			//签名
+			var sign = Request['Sign'];
+            //账户
+			var account = Request['Account'];
+			//ID
+			var id = Request['Id'];
+			//服务态度
+			var serviceAttitude = 5;
+			//放行速度
+			var releaseSpeed = 5;
+			//卸载速度
+			var uninstallSpeed = 5;
+			//总体评价
+			var overallEvaluation = 5;
+
+			setTimeout(function () {
+			    $("#loading").remove();
+			    var html = [];
+			    var strItem = renderItem();
+			    html.push(strItem);
+			    $("#id_ReleaseEvaluate_Div").html(html.join(''));
+			}, 150);
+
+			function renderItem() {
+
+			    var str =
+       "<div class=\"dynamic-list-head dynamic-list1\">\
+            <i class=\"dynamic-i-l icon-evaluate dynamic-list1\"></i>\
+            <b>服 务 评 价</b>\
+        </div>\
+        <div style=\"height: 0.2rem; background-color: #f2f2f2;\"></div>\
+        <div style=\"height: 0.5rem;\"></div>\
+        <div class=\"contaniner1\">\
+            <section class=\"assess\">\
+                <p>\
+                    <span>停车<br />办证</span>\
+                    <textarea rows=\"2\" placeholder=\"写下你的评论吧\" id=\"id_ParkingCard_Textarea\"></textarea>\
+                </p>\
+            </section>\
+            <div style=\"height: 0.3rem;\"></div>\
+            <section class=\"assess\">\
+                <p>\
+                    <span>放行<br />装卸</span>\
+                    <textarea rows=\"2\" placeholder=\"写下你的评论吧\" id=\"id_ReleaseCargo_Textarea\"></textarea>\
+                </p>\
+            </section>\
+            <div style=\"height: 0.3rem;\"></div>\
+            <section class=\"assess\">\
+                <p>\
+                    <span>港区<br />卡口</span>\
+                    <textarea rows=\"2\" placeholder=\"写下你的评论吧\" id=\"id_PortBayonet_Textarea\"></textarea>\
+                </p>\
+            </section>\
+        </div>\
+        <div style=\"height: 0.5rem;\"></div>\
+        <div style=\"height: 0.5rem; background-color: #f2f2f2;\"></div>\
+        <div class=\"dynamic-list-head\">\
+            <i class=\"dynamic-i-l icon-score\"></i>\
+            <b>服 务 评 分</b>\
+        </div>\
+        <div style=\"height: 0.2rem; background-color: #f2f2f2;\"></div>\
+        <div style=\"height: 0.5rem;\"></div>\
+        <div class=\"contaniner1\">\
+            <section class=\"assess\">\
+                <ul>\
+                    <span>服务<br />态度</span>\
+                    <li class=\"assess-right_1\">\
+                        <img onclick=\"level_1(1)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level_1(2)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level_1(3)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level_1(4)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level_1(5)\" src=\"../../images/detail-iocn01.png\" />\
+                    </li>\
+                </ul>\
+            </section>\
+            <section class=\"assess\">\
+                <ul>\
+                    <span>放行<br />速度</span>\
+                    <li class=\"assess-right_2\">\
+                        <img onclick=\"level_2(1)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level_2(2)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level_2(3)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level_2(4)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level_2(5)\" src=\"../../images/detail-iocn01.png\" />\
+                    </li>\
+                </ul>\
+            </section>\
+            <section class=\"assess\">\
+                <ul>\
+                    <span>卸载<br />速度</span>\
+                    <li class=\"assess-right_3\">\
+                        <img onclick=\"level_3(1)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level_3(2)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level_3(3)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level_3(4)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level_3(5)\" src=\"../../images/detail-iocn01.png\" />\
+                    </li>\
+                </ul>\
+            </section>\
+            <section class=\"assess\">\
+                <ul>\
+                    <span>总体<br />评价</span>\
+                    <li class=\"assess-right_4\">\
+                        <img onclick=\"level_4(1)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level_4(2)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level_4(3)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level_4(4)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level_4(5)\" src=\"../../images/detail-iocn01.png\" />\
+                    </li>\
+                </ul>\
+            </section>\
+        </div>\
+        <div style=\"height: 0.5rem;\"></div>\
+        <div style=\"height: 0.5rem; background-color: #f2f2f2;\"></div>";
+			    return str;
+			}
+                   
+			//点击发布
+			function Release() {
+
+			    var isRelease =  window.confirm("确定发布?");
+
+			    if (isRelease == false) {
+
+			        return;
+			    }
+
+				//停车办证
+				var parkingCard = $("#id_ParkingCard_Textarea").val();
+				//放行装卸
+				var releaseCargo = $("#id_ReleaseCargo_Textarea").val();
+				//港区卡口
+				var portBayonet = $("#id_PortBayonet_Textarea").val();
+
+				$.ajax({
+					type: "get",
+					url: GetURL_ReleseEvaluate(),
+					data: {
+                        'AppName': appName,
+                        'Sign': sign,
+                        'Account': account,
+                        'Id': id,
+						'ParkingCard': parkingCard,
+						'ReleaseCargo': releaseCargo,
+						'PortBayonet': portBayonet,
+
+						'ServiceAttitude': serviceAttitude,
+						'ReleaseSpeed': releaseSpeed,
+						'UninstallSpeed': uninstallSpeed,
+						'OverallEvaluation': overallEvaluation
+					},
+
+					contentType: "application/json; charset=utf-8",
+					cache: false,
+					dataType: "json",
+
+					success: function(data) {
+				
+						if (true == data.IsSuccess) {
+
+						    Toast(data.Message, 2000);
+						    setTimeout(function () {
+						        Toast("正在跳转", 2000);
+						        setTimeout(function () {
+						            window.history.back(-1);
+						        }, 2000);
+						    }, 2000);
+						} else {
+						    Toast("网络未连接", 2000);
+						    setTimeout(function () {
+						        return;
+						    }, 2000);
+						    return;
+						}
+					},
+					error: function(err) {
+					    Toast("网络未连接", 2000);
+					    setTimeout(function () {
+					        return;
+					    }, 2000);
+					    return;
+					}
+				});
+			}
+
+			function level_1(s) {
+
+				serviceAttitude = s;
+
+				var str = '';
+
+				var k = 6 - s;
+
+				for(i = 1; i < s + 1; i++) {
+					str += "<img onclick='level_1(" + i + ")' src='../../images/detail-iocn01.png'/>";
+				}
+				for(j = 1; j < k; j++) {
+					var d = j + s
+					str += "<img onclick='level_1(" + d + ")' src='../../images/detail-iocn001.png'/>";
+				}
+
+				$('.assess-right_1').html(str);
+			}
+
+			function level_2(s) {
+				releaseSpeed = s;
+
+				var str = '';
+
+				var k = 6 - s;
+
+				for(i = 1; i < s + 1; i++) {
+					str += "<img onclick='level_2(" + i + ")' src='../../images/detail-iocn01.png'/>";
+				}
+				for(j = 1; j < k; j++) {
+					var d = j + s
+					str += "<img onclick='level_2(" + d + ")' src='../../images/detail-iocn001.png'/>";
+				}
+
+				$('.assess-right_2').html(str);
+			}
+
+			function level_3(s) {
+
+				uninstallSpeed = s;
+
+				var str = '';
+
+				var k = 6 - s;
+
+				for(i = 1; i < s + 1; i++) {
+					str += "<img onclick='level_3(" + i + ")' src='../../images/detail-iocn01.png'/>";
+				}
+				for(j = 1; j < k; j++) {
+					var d = j + s
+					str += "<img onclick='level_3(" + d + ")' src='../../images/detail-iocn001.png'/>";
+				}
+
+				$('.assess-right_3').html(str);
+			}
+
+			function level_4(s) {
+				overallEvaluation = s;
+
+				var str = '';
+
+				var k = 6 - s;
+
+				for(i = 1; i < s + 1; i++) {
+					str += "<img onclick='level_4(" + i + ")' src='../../images/detail-iocn01.png'/>";
+				}
+				for(j = 1; j < k; j++) {
+					var d = j + s
+					str += "<img onclick='level_4(" + d + ")' src='../../images/detail-iocn001.png'/>";
+				}
+
+				$('.assess-right_4').html(str);
+			}
+
+
+			////Android物理返回键监听
+			//(function ($, doc) {
+			//    var backButtonPress = 0;
+			//    $.back = function (event) {
+			//        backButtonPress++;
+			//        if (backButtonPress == 1) {
+			//            window.history.go(-1);
+			//        }
+			//        return false;
+			//    };
+			//}(mui, document));
+    </script>
+</body>
+
+</html>

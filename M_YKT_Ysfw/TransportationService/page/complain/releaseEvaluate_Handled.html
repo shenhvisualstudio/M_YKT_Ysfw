@@ -1,0 +1,243 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>发布评价</title>
+
+    <link rel="stylesheet" href="../../css/loading.css" />
+    <link rel="stylesheet" href="../../fonts/iconfont.css" />
+    <link rel="stylesheet" href="../../css/bass.css" />
+    <link rel="stylesheet" href="../../css/index.css" />
+</head>
+
+<body>
+    <div>
+        <div class="header">
+            评价
+            <div class="header_left" onclick="window.history.go(-1)"><i class="icon-return"></i></div>
+            <div class="header_right" id="open_sta" onclick="Release()">发布</div>
+        </div>
+    </div>
+    <!--loading页开始-->
+    <div class="container" id="loading">
+        <div class="loader loader-1" id="load">
+            <div class="loader-outter"></div>
+            <div class="loader-inner"></div>
+        </div>
+    </div>
+    <!--loading页结束-->
+    <div  id="id_ReleaseEvaluate_Handled_Div">
+        <!--<div class="dynamic-list-head dynamic-list1">
+            <i class="dynamic-i-l icon-evaluate dynamic-list1"></i>
+            <b>处理结果评价</b>
+        </div>
+        <div style="height: 0.2rem; background-color: #f2f2f2;"></div>
+        <div style="height: 0.5rem;"></div>
+        <div class="contaniner1">
+            <section class="assess">
+                <p>
+                    <span>满意<br />&nbsp;度</span>
+                    <textarea rows="2" placeholder="写下你的评论吧" id="id_HandleResult_Evaluate_Textarea"></textarea>
+                </p>
+            </section>
+        </div>
+        <div style="height: 0.5rem;"></div>
+        <div style="height: 0.5rem; background-color: #f2f2f2;"></div>
+
+        <div class="dynamic-list-head">
+            <i class="dynamic-i-l icon-score"></i>
+            <b>处理结果评分</b>
+        </div>
+        <div style="height: 0.2rem; background-color: #f2f2f2;"></div>
+        <div style="height: 0.5rem;"></div>
+        <div class="contaniner1">
+            <section class="assess">
+                <ul>
+                    <span>满意<br />&nbsp;度</span>
+                    <li class="assess-right">
+                        <img onclick="level(1)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level(2)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level(3)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level(4)" src="../../images/detail-iocn01.png" />
+                        <img onclick="level(5)" src="../../images/detail-iocn01.png" />
+                    </li>
+                </ul>
+            </section>
+        </div>
+        <div style="height: 0.5rem;"></div>
+        <div style="height: 0.5rem; background-color: #f2f2f2;"></div>
+    </div>-->
+  
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script type="text/javascript" src="../../js/config.js"></script>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <!--<script type="text/javascript" src="../../js/mui.min.js"></script>-->
+    <script type="text/javascript">
+			//获取URL参数
+			var url = document.location.search;
+			if(url == "") {
+			    url = "?AppName=ZSFW&Sign=&Account=13961342811&Id=679";
+			}
+
+			Request = GetRequest(url);
+			//应用名称
+			var appName = Request['AppName'];
+			//签名
+			var sign = Request['Sign'];
+            //账户
+			var account = Request['Account'];
+			//ID
+			var id = Request['Id'];
+			//处理结果评分
+			var handleResult_Score = 5;
+
+			setTimeout(function () {
+			    $("#loading").remove();
+			    var html = [];
+			    var strItem = renderItem();
+			    html.push(strItem);
+			    $("#id_ReleaseEvaluate_Handled_Div").html(html.join(''));
+			}, 150);		
+
+			function renderItem() {
+
+			    var str =
+        "<div class=\"dynamic-list-head dynamic-list1\">\
+            <i class=\"dynamic-i-l icon-evaluate dynamic-list1\"></i>\
+            <b>处理结果评价</b>\
+        </div>\
+        <div style=\"height: 0.2rem; background-color: #f2f2f2;\"></div>\
+        <div style=\"height: 0.5rem;\"></div>\
+        <div class=\"contaniner1\">\
+            <section class=\"assess\">\
+                <p>\
+                    <span>满意<br />&nbsp;度</span>\
+                    <textarea rows=\"2\" placeholder=\"写下你的评论吧\" id=\"id_HandleResult_Evaluate_Textarea\"></textarea>\
+                </p>\
+            </section>\
+        </div>\
+        <div style=\"height: 0.5rem;\"></div>\
+        <div style=\"height: 0.5rem; background-color: #f2f2f2;\"></div>\
+        <div class=\"dynamic-list-head\">\
+            <i class=\"dynamic-i-l icon-score\"></i>\
+            <b>处理结果评分</b>\
+        </div>\
+        <div style=\"height: 0.2rem; background-color: #f2f2f2;\"></div>\
+        <div style=\"height: 0.5rem;\"></div>\
+        <div class=\"contaniner1\">\
+            <section class=\"assess\">\
+                <ul>\
+                    <span>满意<br />&nbsp;度</span>\
+                    <li class=\"assess-right\">\
+                        <img onclick=\"level(1)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level(2)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level(3)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level(4)\" src=\"../../images/detail-iocn01.png\" />\
+                        <img onclick=\"level(5)\" src=\"../../images/detail-iocn01.png\" />\
+                    </li>\
+                </ul>\
+            </section>\
+        </div>\
+        <div style=\"height: 0.5rem;\"></div>\
+        <div style=\"height: 0.5rem; background-color: #f2f2f2;\"></div>";
+			    return str;
+			}
+
+
+			//点击发布
+			function Release() {
+
+			    var isRelease =  window.confirm("确定发布?");
+
+			    if (isRelease == false) {
+
+			        return;
+			    }
+
+				//处理结果评价
+			    var handleResult_Evaluate = $("#id_HandleResult_Evaluate_Textarea").val();
+
+				$.ajax({
+					type: "get",
+					url: GetURL_ReleseEvaluate_Handled(),
+					data: {
+                        'AppName': appName,
+                        'Sign': sign,
+                        'Account': account,
+                        'Id': id,
+                        'HandleResult_Evaluate': handleResult_Evaluate,
+
+						'HandleResult_Score': handleResult_Score,
+					},
+
+					contentType: "application/json; charset=utf-8",
+					cache: false,
+					dataType: "json",
+
+					success: function(data) {
+				
+						if (true == data.IsSuccess) {
+
+						    Toast(data.Message, 2000);
+						    setTimeout(function () {
+						        Toast("正在跳转", 2000);
+						        setTimeout(function () {
+						            window.history.go(-1);
+						        }, 2000);
+						    }, 2000);
+
+
+						} else {
+						    Toast("网络未连接", 2000);
+						    setTimeout(function () {
+						        return;
+						    }, 2000);
+						    return;
+						}
+					},
+					error: function(err) {
+					    Toast("网络未连接", 2000);
+					    setTimeout(function () {
+					        return;
+					    }, 2000);
+					    return;
+					}
+				});
+			}
+
+			function level(s) {
+
+				handleResult_Score = s;
+
+				var str = '';
+
+				var k = 6 - s;
+
+				for(i = 1; i < s + 1; i++) {
+					str += "<img onclick='level(" + i + ")' src='../../images/detail-iocn01.png'/>";
+				}
+				for(j = 1; j < k; j++) {
+					var d = j + s
+					str += "<img onclick='level(" + d + ")' src='../../images/detail-iocn001.png'/>";
+				}
+
+				$('.assess-right').html(str);
+			}
+
+			////Android物理返回键监听
+			//(function ($, doc) {
+			//    var backButtonPress = 0;
+			//    $.back = function (event) {
+			//        backButtonPress++;
+			//        if (backButtonPress == 1) {
+			//            window.history.back(-1);
+			//        }
+			//        return false;
+			//    };
+			//}(mui, document));
+    </script>
+</body>
+
+</html>

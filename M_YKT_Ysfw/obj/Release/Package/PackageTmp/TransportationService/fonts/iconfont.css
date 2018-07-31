@@ -1,0 +1,53 @@
+@font-face {
+    font-family: 'icomoon';
+    src:    url('icomoon.eot?uh1wnx');
+    src:    url('icomoon.eot?uh1wnx#iefix') format('embedded-opentype'),
+        url('icomoon.ttf?uh1wnx') format('truetype'),
+        url('icomoon.woff?uh1wnx') format('woff'),
+        url('icomoon.svg?uh1wnx#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+}
+
+.icon-truck:before {
+  content: "\e9b0";
+}
+.icon-detail:before {
+  content: "\e926";
+}
+.icon-evaluate:before {
+  content: "\e901";
+}
+.icon-score:before {
+  content: "\e900";
+}
+.icon-user:before {
+  content: "\e971";
+}
+.icon-return:before {
+  content: "\e902";
+  color: #fff;
+}
+.icon-evaluate0:before {
+  content: "\e903";
+}
+.icon-complain:before {
+  content: "\e904";
+}
+.icon-problem:before {
+  content: "\e905";
+}

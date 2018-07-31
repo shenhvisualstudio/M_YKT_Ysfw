@@ -1,0 +1,266 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>运输问题</title>
+
+    <link rel="stylesheet" href="../../fonts/iconfont.css" />
+    <link rel="stylesheet" href="../../css/mui.min.css" />
+    <link rel="stylesheet" href="../../css/mui.picker.min.css" />
+    <link rel="stylesheet" href="../../css/mui.poppicker.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav" style="background: #27c1f7;">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+        <h1 class="mui-title" style="color: white;">运输问题</h1>
+        <a class="mui-icon mui-pull-right" id="id_MyProblem_A" style="font-size: 15px; line-height: 28px; color: white;">我的问题</a>
+    </header>
+    <div class="mui-content" style="padding-top: 44px;">
+        <section class="order" id="id_TransportationFeedback_Section">
+            <div class="divv">
+                <div style="height: 0.5rem;"></div>
+                <div class="dynamic-list">
+                    <span class="fl text1">问题对象<span class="color2_1">*</span></span>
+                    <span class="fl text8" id="id_FeedbackObject_Span" style="padding-left: 2.0rem;">请选择问题对象</span>
+                </div>
+                <div class="line"></div>
+                <div class="dynamic-list">
+                    <span class="fl text1">公司名称</span>
+                    <span class="fl text8" id="id_Company_Span" style="padding-left: 2.0rem;">请选择公司名称</span>
+                </div>
+                <div class="line"></div>
+                <div class="dynamic-list">
+                    <span class="fl text1" style="margin-top: 10px;">问题标题<span class="color2_1">*</span></span>
+                    <span class="fl text8">
+                        <textarea rows="1" placeholder="写下你的标题" id="id_FeedBackTitle_Textarea"></textarea>
+                    </span>
+                </div>
+                <div class="line"></div>
+                <div class="dynamic-list">
+                    <span class="fl text1" style="margin-top: 36px;">问题说明<span class="color2_1">*</span></span>
+                    <span class="fl text9">
+                        <textarea rows="5" placeholder="写下你的说明" id="id_FeedBackExplain_Textarea"></textarea>
+                    </span>
+                </div>
+                <div class="line"></div>
+                <div class="dynamic-list">
+                    <span class="fl text1" style="margin-top: 10px;">联系电话</span>
+                    <span class="fl text8">
+                        <textarea rows="1" placeholder="请输入联系电话" id="id_PhoneNum_Textarea"></textarea>
+                    </span>
+                </div>
+                <div class="line"></div>
+                <div class="dynamic-list">
+                    <span class="fl text1" style="margin-top: 4px;">匿名</span>
+                    <span class="fl text8">
+                        <div class="mui-switch fr" id="id_Anonymous_Switch">
+                            <div class="mui-switch-handle"></div>
+                        </div>
+                    </span>
+                </div>
+                <div class="dynamic-list">
+                    <div>
+                        <button type="button" class="order-que1" id="id_Submit_Button">提交</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <script src="../../js/mui.min.js "></script>
+    <script type="text/javascript" src="../../js/mui.picker.min.js"></script>
+    <script type="text/javascript" src="../../js/mui.poppicker.js"></script>
+    <script type="text/javascript" src="../../js/md5-min.js"></script>
+    <script type="text/javascript" src="../../js/config.js "></script>
+    <script type="text/javascript" src="../../js/common.js "></script>
+    <script type="text/javascript ">
+        //账户
+        var account = " ";
+        //问题对象编码
+        var code_FeedbackObject = "";
+        //公司名称编码
+        var code_Company = "";
+
+        mui.init({
+            //				swipeBack: true,
+            //				gestureConfig: {
+            //					swipe: true
+            //				},
+        });
+
+        mui.plusReady(function() {
+            var params = plus.webview.currentWebview();
+            //账户
+            account = params.account;
+
+            //问题对象选择
+            document.getElementById('id_FeedbackObject_Span').addEventListener('tap', function() {
+                var feedbackObject_Pick = new mui.PopPicker();
+
+                feedbackObject_Pick.setData([{
+                    value: "1",
+                    text: "公路港"
+                }, {
+                    value: "2",
+                    text: "码头公司"
+                }, {
+                    value: "3",
+                    text: "港区卡口"
+                }, {
+                    value: "9",
+                    text: "其他"
+                }]);
+
+                feedbackObject_Pick.show(function(item) {
+                    var itemCallback = feedbackObject_Pick.getSelectedItems();
+                    var id_FeedbackObject_Span = document.getElementById('id_FeedbackObject_Span');
+                    id_FeedbackObject_Span.innerHTML = itemCallback[0].text;
+                    code_FeedbackObject = itemCallback[0].value;
+
+                    if(code_FeedbackObject != "2") {
+                        document.getElementById('id_Company_Span').disabled = true;
+                        document.getElementById('id_Company_Span').classList.add("opacity");
+                    } else {
+                        document.getElementById('id_Company_Span').disabled = false;
+                        document.getElementById('id_Company_Span').classList.remove("opacity");
+                    }
+                })
+            });
+
+            //公司名称选择
+            document.getElementById('id_Company_Span').addEventListener('tap', function() {
+                var company_Pick = new mui.PopPicker();
+
+                company_Pick.setData([{
+                    value: "405",
+                    text: "新苏港码头"
+                }, {
+                    value: "111",
+                    text: "东源公司"
+                }, {
+                    value: "39",
+                    text: "东泰公司"
+                }, {
+                    value: "191",
+                    text: "东泰公司"
+                }, {
+                    value: "77",
+                    text: "东联公司"
+                }, {
+                    value: "2200",
+                    text: "新海湾码头"
+                }, {
+                    value: "5251",
+                    text: "新东润公司"
+                }]);
+
+                company_Pick.show(function(item) {
+                    var itemCallback = company_Pick.getSelectedItems();
+                    var id_Company_Span = document.getElementById('id_Company_Span');
+                    id_Company_Span.innerHTML = itemCallback[0].text;
+                    code_Company = itemCallback[0].value;
+                })
+            });
+
+            //提交
+            document.getElementById("id_Submit_Button").addEventListener('tap', function() {
+
+                //反馈类型
+                var feedbackType = "1";
+                //反馈标题
+                var feedBackTitle = document.getElementById('id_FeedBackTitle_Textarea').value.trim();
+                //反馈说明
+                var feedBackExplain = document.getElementById('id_FeedBackExplain_Textarea').value.trim();
+                //联系电话
+                var phoneNum = document.getElementById('id_PhoneNum_Textarea').value.trim();
+                //匿名反馈
+                var anonymous = document.getElementById('id_Anonymous_Switch').classList.contains("mui-active");
+                anonymous = anonymous == true ? "1" : "0";
+
+                if(code_FeedbackObject.length == 0 || feedBackTitle.length == 0 || feedBackExplain.length == 0 || (code_FeedbackObject == "2" && code_Company.length == 0)) {
+                    mui.toast("内容不完整")
+                } else {
+
+                    var btnArray = ['取消', '确定'];
+                    var dl = this.parentNode.parentNode;
+                    mui.confirm("确定提交？", "", btnArray, function(e) {
+                        if(e.index == 1) {
+                            var objectList = new Array();
+                            objectList.push(new KeyValue("AppName", Sys.APP_CODE));
+                            objectList.push(new KeyValue("Account", account));
+                            objectList.push(new KeyValue("FeedbackType", feedbackType));
+                            objectList.push(new KeyValue("CodeFeedbackObject", code_FeedbackObject));
+                            objectList.push(new KeyValue("CodeCompany", code_Company));
+                            objectList.push(new KeyValue("FeedBackTitle", feedBackTitle));
+                            objectList.push(new KeyValue("FeedBackExplain", feedBackExplain));
+                            objectList.push(new KeyValue("PhoneNum", phoneNum));
+                            objectList.push(new KeyValue("Anonymous", anonymous));
+
+                            mui.ajax({
+                                type: 'POST',
+                                data: {
+                                    'AppName': Sys.APP_CODE,
+                                    'Sign': GetSign(objectList),
+                                    'Account': account,
+                                    'FeedbackType': feedbackType,
+                                    'CodeFeedbackObject': code_FeedbackObject,
+                                    'CodeCompany': code_Company,
+                                    'FeedBackTitle': feedBackTitle,
+                                    'FeedBackExplain': feedBackExplain,
+                                    'PhoneNum': phoneNum,
+                                    'Anonymous': anonymous,
+                                },
+                                url: Url.HTTP_SUBMIT_PROBLEM_URL,
+                                timeout: 10000, //超时时间设置为10秒；
+                                dataType: 'json', //服务器返回json格式数据
+
+                                success: function(data) {
+
+                                    if(data.IsSuccess) {
+
+                                        mui.toast(data.Message);
+                                        //返回上一级
+                                        mui.back();
+
+                                    } else {
+                                        console.log(data.Message);
+                                        mui.toast(data.Message);
+                                    }
+                                },
+                                error: function(xhr, type, errorThrown) {
+
+                                    console.log(errorThrown);
+                                    mui.toast("网络未连接");
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+
+            //我的问题
+            document.getElementById('id_MyProblem_A').addEventListener('tap', function() {
+                mui.openWindow({
+
+                    url: "myProblem.html",
+                    id: "myProblem.html",
+
+                    extras: {
+                        account: account,
+                    },
+                    createNew: false,
+                    show: {
+                        autoShow: true,
+                    },
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

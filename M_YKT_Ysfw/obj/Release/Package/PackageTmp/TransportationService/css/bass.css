@@ -1,0 +1,37 @@
+﻿/*!
+ * =====================================================
+ * CY v1.0.0 (Email:g1079832313@163.com)
+ * =====================================================
+ */
+
+/*! bass.css v1.0.0 | gjb */
+@charset "utf-8"; 
+/*1 重定义浏览器默认样式*/
+*{word-wrap:break-word}
+html,body,h1,h2,h3,h4,h5,h6,hr,p,iframe,dl,dt,dd,ul,ol,li,pre,form,button,input,textarea,th,td,fieldset{margin:0;padding:0}
+ul,ol,dl{list-style-type:none}
+html,body{*position:static}
+html{font-family: sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
+address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:normal}
+input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit}
+input,button{overflow: visible;vertical-align:middle;outline:none}
+body,th,td,button,input,select,textarea{font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Helvetica,tahoma,arial,Verdana,sans-serif,"WenQuanYi Micro Hei","\5B8B\4F53";color: #333;-webkit-font-smoothing:antialiased;-moz-font-smoothing:antialiased}
+input,select,textarea{color:#555;background-color:#fff; border:solid 1px #ddd;}
+body{line-height:1.6;}
+h1,h2,h3,h4,h5,h6{font-size:100%}
+a,area{outline:none;blr:expression(this.onFocus=this.blur())}
+a{text-decoration:none;cursor: pointer;}
+a:hover{text-decoration:underline;}
+a.ie6:hover{zoom:1}
+a,
+a:focus,
+a:hover,
+a:active{ outline:none; color: #333; text-decoration:none;}
+a.btn,
+a.btn:hover,
+a.btn:active{ color: #fff; }
+sub,sup{vertical-align:baseline}
+textarea { resize: none;}
+.fl{ float: left; }
+.fr{ float: right; }
+

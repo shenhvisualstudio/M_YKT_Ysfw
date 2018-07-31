@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>评价详情</title>
+
+    <link rel="stylesheet" href="../../css/loading.css" />
+    <link rel="stylesheet" href="../../fonts/iconfont.css" />
+    <link rel="stylesheet" href="../../css/bass.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/index.css" />
+</head>
+
+<body>
+    <div>
+
+        <div class="header">
+            我的评价
+            <div class="header_left" onclick="window.history.go(-1)"><i class="icon-return"></i></div>
+
+        </div>
+    </div>
+    <!--loading页开始-->
+    <div class="container" id="loading">
+        <div class="loader loader-1" id="load">
+            <div class="loader-outter"></div>
+            <div class="loader-inner"></div>
+        </div>
+    </div>
+    <!--loading页结束-->
+    <div class="contaniner fixed-conta">
+        <section class="order" id="id_EvaluateDetail_Section">
+            <!--<dl>
+                <dt>
+                    <span>评价详情</span>
+                    <span class="fr color1">已解决</span>
+                </dt>
+                <dd>
+                    <span class="text2">停车办证：</span>
+                    <span class="text3">办证时间太长办证时间太长办证时间太长办证时间太长办证时间太长办证时间太长办证时间太长办证时间太长办证时间太长办证时间太长办证时间太长办证时间太长办证时间太长办证时间太长办证时间太长</span><br>
+                    <span class="text2">旅行装卸：</span>
+                    <span class="text3">**</span><br>
+                    <span class="text2">港区卡口：</span>
+                    <span class="text3">**</span><br>
+                    <span class="text6 fl">服务态度：</span>
+                    <span class="text7 fl">中评</span>
+                    <span class="text6 fl">放行速度：</span>
+                    <span class="text7 fl">好评</span><br />
+                    <span class="text6 fl">卸载速度：</span>
+                    <span class="text7 fl">好评</span>
+                    <span class="text6 fl">总体评价：</span>
+                    <span class="text7 fr">好评</span><br />
+                    <span class="text6 fl">评价时间：</span>
+                    <span class="text7 fl">2017-09-06 09:23</span>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <span>评价解释</span>
+                </dt>
+                <dd>
+                    <span class="text2">公路港：</span>
+                    <span class="text3">新手操作不熟练导致！新手操作不熟练导致！新手操作不熟练导致！新手操作不熟练导致！新手操作不熟练导致！</span><br>
+                    <span class="text2">码头公司：</span>
+                    <span class="text3">**</span><br>
+                    <span class="text2">港区卡口：</span>
+                    <span class="text3">**</span><br>
+                    <span class="text2">解释时间：</span>
+                    <span class="text3">2017-09-06 09:23</span>
+                </dd>
+
+            </dl>-->
+        </section>
+    </div>
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script type="text/javascript" src="../../js/config.js"></script>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <!--<script type="text/javascript" src="../../js/mui.min.js"></script>-->
+    <script type="text/javascript">
+			//获取URL参数
+			var url = document.location.search;
+			if(url == "") {
+				url = "?AppName=ZSFW&Sign=&Id=41";
+			}
+
+			Request = GetRequest(url);
+			//应用名称
+			var appName = Request['AppName'];
+			//签名
+			var sign = Request['Sign'];
+			//ID
+			var id = Request['Id'];
+
+			$.ajax({
+				type: "get",
+				url: GetURL_GetMyEvaluate_Handled(),
+				data: {
+					'AppName': appName,
+					'Sign': sign,
+					'Id': id,
+				},
+
+				contentType: "application/json; charset=utf-8",
+				cache: false,
+				dataType: "json",
+
+				success: function(data) {
+				
+					if(true == data.IsSuccess) {
+						if(data == null) {
+							return;
+						}
+               
+						var html = [];
+						var strItem = renderItem(data.Data);
+						html.push(strItem);
+						$("#loading").remove();
+						$("#id_EvaluateDetail_Section").html(html.join(''));
+						
+
+					} else {
+						$("#loading").remove();
+						Toast("网络未连接", 2000);
+						setTimeout(function () {
+						    return;
+						}, 2000);
+						return;
+					}
+				},
+				error: function(err) {
+					$("#loading").remove();
+					Toast("网络未连接", 2000);
+					setTimeout(function () {
+					    return;
+					}, 2000);
+					return;
+				}
+			});
+
+			function renderItem(data) {
+
+				var str =
+            "<dl>\
+                <dt>\
+                    <span>评价内容</span>\
+                </dt>\
+                <dd>\
+                  <span class=\"text2\">满意度评价：</span>\
+                    <span class=\"text3\">" + data[0] + "</span><br>\
+                    <span class=\"text2\">满意度评分：</span>\
+                    <span class=\"text3\">" + data[1] + "</span><br>\
+                    <span class=\"text2\">评价时间：</span>\
+                    <span class=\"text3\">" + data[2] + "</span><br>\
+                </dd>\
+            </dl>\
+            </dl>";
+				return str;
+			}
+
+			////Android物理返回键监听
+			//(function ($, doc) {
+			//    var backButtonPress = 0;
+			//    $.back = function (event) {
+			//        backButtonPress++;
+			//        if (backButtonPress == 1) {
+			//            window.history.go(-1);
+			//        }
+			//        return false;
+			//    };
+			//}(mui, document));
+    </script>
+</body>
+
+</html>

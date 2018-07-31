@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>投诉处理结果评价</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<link rel="stylesheet" href="../../fonts/iconfont.css" />
+		<link rel="stylesheet" href="../../css/index.css" />
+		<link rel="stylesheet" href="../../css/style.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background: #27c1f7;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title" style="color: white;">评价</h1>
+			<a class="mui-icon mui-pull-right" id="id_Release_A" style="font-size: 15px; line-height: 28px; color: white;">发布</a>
+		</header>
+
+		<div class="mui-content" style="padding-top: 44px;">
+			<section class="order">
+				<div class="dynamic-list-head">
+					<i class="dynamic-i-l icon-evaluate"></i>
+					<b>处理结果评 价</b>
+				</div>
+				<div style="height: 0.2rem; background-color: #f2f2f2;"></div>
+				<div class="contaniner1">
+					<div>
+						<section class="assess">
+							<p style="margin: 0; color: black;">
+								<span>满意<br />&nbsp;度</span>
+								<textarea rows="5" placeholder="写下你的评论吧" id="id_HandleResult_Evaluate_Textarea" style="font-size: 1rem;"></textarea>
+							</p>
+						</section>
+						<div style="height: 0.5rem;"></div>
+					</div>
+
+					<div style="height: 0.5rem; background-color: #f2f2f2;"></div>
+					<div class="dynamic-list-head">
+						<i class="dynamic-i-l icon-score"></i>
+						<b>处理结果评分</b>
+					</div>
+					<div style="height: 0.2rem; background-color: #f2f2f2;"></div>
+
+					<div class="contaniner1">
+						<section class="assess">
+							<ul style="margin: 0;">
+								<span>满意<br />&nbsp;度</span>
+								<li class="assess-right" style="margin-top: 10px;" id="id_Assess-right_Li">
+									<img onclick="level(1)" src="../../images/detail-iocn01.png" />
+									<img onclick="level(2)" src="../../images/detail-iocn01.png" />
+									<img onclick="level(3)" src="../../images/detail-iocn01.png" />
+									<img onclick="level(4)" src="../../images/detail-iocn01.png" />
+									<img onclick="level(5)" src="../../images/detail-iocn01.png" />
+								</li>
+							</ul>
+						</section>
+					</div>
+					<div style="height: 1rem;"></div>
+					<div style="height: 0.5rem; background-color: #f2f2f2;"></div>
+			</section>
+			</div>
+			<script src="../../js/mui.min.js "></script>
+			<script type="text/javascript" src="../../js/md5-min.js"></script>
+			<script type="text/javascript " src="../../js/config.js "></script>
+			<script type="text/javascript " src="../../js/common.js "></script>
+			<script type="text/javascript ">
+				//账户
+				var account = "";
+				//ID
+				var problemId = "";
+				//处理结果评分
+				var handleResult_Score = 5;
+
+				mui.init({
+					//				swipeBack: true,
+					//				gestureConfig: {
+					//					swipe: true 
+					//				},
+				});
+
+				mui.plusReady(function() {
+					var params = plus.webview.currentWebview();
+					//账户
+					account = params.account;
+					//ID
+					problemId = params.problemId;
+
+					//发布
+					document.getElementById("id_Release_A").addEventListener('tap', function() {
+
+						var btnArray = ['取消', '确定'];
+						var dl = this.parentNode.parentNode;
+						mui.confirm("确定发布？", "", btnArray, function(e) {
+							if(e.index == 1) {
+								//处理结果评价
+								var handleResult_Evaluate = document.getElementById('id_HandleResult_Evaluate_Textarea').value.trim();
+
+								var objectList = new Array();
+								objectList.push(new KeyValue("AppName", Sys.APP_CODE));
+								objectList.push(new KeyValue("Account", account));
+								objectList.push(new KeyValue("Id", problemId));
+								objectList.push(new KeyValue("HandleResult_Evaluate", handleResult_Evaluate));
+								objectList.push(new KeyValue("HandleResult_Score", handleResult_Score));
+
+								mui.ajax({
+									type: 'POST',
+									data: {
+										'AppName': Sys.APP_CODE,
+										'Sign': GetSign(objectList),
+										'Account': account,
+										'Id': problemId,
+										'HandleResult_Evaluate': handleResult_Evaluate,
+
+										'HandleResult_Score': handleResult_Score
+									},
+									url: Url.HTTP_RELEASE_EVALUATE_HANDLED_OF_PROBLEM_URL,
+									timeout: 10000, //超时时间设置为10秒；
+									dataType: 'json', //服务器返回json格式数据
+
+									success: function(data) {
+
+										if(data.IsSuccess) {
+
+											mui.toast(data.Message);
+											//返回上一级
+											mui.back();
+											//重新加载
+											var wobj = plus.webview.getWebviewById("complainDetail_Handled.html");
+											wobj.reload(true);
+
+										} else {
+											console.log(data.Message);
+											mui.toast(data.Message);
+										}
+									},
+									error: function(xhr, type, errorThrown) {
+
+										console.log(errorThrown);
+										mui.toast("网络未连接");
+									}
+								});
+							}
+						});
+					});
+
+				});
+
+				function level(s) {
+					serviceAttitude = s;
+
+					var str = '';
+
+					var k = 6 - s;
+
+					for(i = 1; i < s + 1; i++) {
+						str += "<img onclick='level(" + i + ")' src='../../images/detail-iocn01.png'/>";
+					}
+					for(j = 1; j < k; j++) {
+						var d = j + s
+						str += "<img onclick='level(" + d + ")' src='../../images/detail-iocn001.png'/>";
+					}
+
+					document.getElementById('id_Assess-right_Li').innerHTML = str;
+				}
+			</script>
+
+	</body>
+
+</html>

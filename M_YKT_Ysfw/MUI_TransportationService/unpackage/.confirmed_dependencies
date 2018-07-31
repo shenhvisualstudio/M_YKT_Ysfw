@@ -1,0 +1,308 @@
+{
+	"index.html": {
+		"resources": [
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"sub_index.html"
+		],
+		"refer": [
+			"sub_index.html"
+		]
+	},
+	"sub_index.html": {
+		"resources": [
+			"css/index.css",
+			"fonts/iconfont.css",
+			"fonts/icomoon.ttf",
+			"css/bass.css",
+			"css/mui.css",
+			"js/mui.min.js"
+		],
+		"refer": [
+			"page/complain/transportationFeedback.html",
+			"page/evaluate/toEvaluate.html",
+			"page/problem/transportationProblem.html",
+			"page/complain/transportationComplain.html"
+		]
+	},
+	"page/complain/transportationFeedback.html": {
+		"resources": [
+			"css/index.css",
+			"fonts/iconfont.css",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/icomoon.ttf",
+			"css/bass.css",
+			"css/style.css",
+			"js/config.js"
+		]
+	},
+	"page/evaluate/toEvaluate.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/style.css",
+			"fonts/iconfont.css",
+			"fonts/icomoon.ttf",
+			"js/common.js",
+			"js/config.js"
+		],
+		"refer": [
+			"page/evaluate/releaseEvaluate.html",
+			"page/evaluate/myEvaluate.html"
+		]
+	},
+	"page/evaluate/releaseEvaluate.html": {
+		"resources": [
+			"css/index.css",
+			"css/bass.css",
+			"images/detail-iocn01.png",
+			"fonts/iconfont.css",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"fonts/icomoon.ttf",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/config.js",
+			"images/detail-iocn001.png"
+		]
+	},
+	"page/evaluate/myEvaluate.html": {
+		"resources": [
+			"css/index.css",
+			"fonts/iconfont.css",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/icomoon.ttf",
+			"css/bass.css",
+			"css/style.css",
+			"js/config.js",
+			"css/mui.min.css",
+			"fonts/mui.ttf"
+		],
+		"refer": [
+			"page/evaluate/evaluateDetail.html",
+			"page/evaluate/historyEvaluate.html"
+		]
+	},
+	"page/evaluate/evaluateDetail.html": {
+		"resources": [
+			"css/bass.css",
+			"css/index.css",
+			"fonts/iconfont.css",
+			"fonts/icomoon.ttf",
+			"css/style.css",
+			"css/mui.min.css",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/config.js"
+		]
+	},
+	"page/problem/transportationProblem.html": {
+		"resources": [
+			"js/common.js",
+			"js/mui.picker.min.js",
+			"js/mui.poppicker.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/style.css",
+			"css/mui.poppicker.css",
+			"css/mui.picker.min.css",
+			"js/config.js",
+			"fonts/iconfont.css",
+			"js/mui.min.js",
+			"fonts/icomoon.ttf"
+		],
+		"refer": [
+			"page/problem/myProblem.html"
+		]
+	},
+	"page/problem/myProblem.html": {
+		"resources": [
+			"css/index.css",
+			"fonts/iconfont.css",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"fonts/icomoon.ttf",
+			"js/config.js"
+		],
+		"refer": [
+			"page/problem/problemDetail_Handled.html",
+			"page/problem/problemDetail.html",
+			"page/problem/historyProblem.html"
+		]
+	},
+	"page/problem/problemDetail_Handled.html": {
+		"resources": [
+			"css/index.css",
+			"css/bass.css",
+			"fonts/iconfont.css",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"fonts/icomoon.ttf",
+			"js/config.js"
+		],
+		"refer": [
+			"page/problem/myEvaluate_Handled.html",
+			"page/problem/releaseEvaluate_Handled.html"
+		]
+	},
+	"page/problem/problemDetail.html": {
+		"resources": [
+			"css/bass.css",
+			"css/index.css",
+			"fonts/iconfont.css",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/config.js"
+		]
+	},
+	"page/problem/myEvaluate_Handled.html": {
+		"resources": [
+			"css/bass.css",
+			"css/index.css",
+			"fonts/iconfont.css",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/icomoon.ttf",
+			"css/style.css",
+			"js/config.js",
+			"css/mui.min.css",
+			"fonts/mui.ttf"
+		]
+	},
+	"page/problem/releaseEvaluate_Handled.html": {
+		"resources": [
+			"css/index.css",
+			"fonts/iconfont.css",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/icomoon.ttf",
+			"css/bass.css",
+			"js/config.js",
+			"images/detail-iocn01.png",
+			"css/mui.min.css",
+			"css/style.css",
+			"images/detail-iocn001.png",
+			"fonts/mui.ttf"
+		]
+	},
+	"page/complain/transportationComplain.html": {
+		"resources": [
+			"js/common.js",
+			"js/mui.picker.min.js",
+			"js/mui.poppicker.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/style.css",
+			"css/mui.poppicker.css",
+			"css/mui.picker.min.css",
+			"js/config.js",
+			"fonts/iconfont.css",
+			"js/mui.min.js",
+			"fonts/icomoon.ttf"
+		],
+		"refer": [
+			"page/complain/myComplain.html"
+		]
+	},
+	"page/complain/myComplain.html": {
+		"resources": [
+			"css/index.css",
+			"css/mui.min.css",
+			"fonts/iconfont.css",
+			"fonts/icomoon.ttf",
+			"css/style.css",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/config.js"
+		],
+		"refer": [
+			"page/complain/complainDetail.html",
+			"page/complain/complainDetail_Handled.html",
+			"page/complain/historyComplain.html"
+		]
+	},
+	"page/complain/complainDetail.html": {
+		"resources": [
+			"css/index.css",
+			"css/mui.min.css",
+			"fonts/iconfont.css",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/style.css",
+			"js/config.js"
+		]
+	},
+	"page/complain/myEvaluate_Handled.html": {
+		"resources": [
+			"css/index.css",
+			"fonts/iconfont.css",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/config.js",
+			"fonts/icomoon.ttf"
+		]
+	},
+	"page/complain/complainDetail_Handled.html": {
+		"refer": [
+			"page/complain/myEvaluate_Handled.html",
+			"page/complain/releaseEvaluate_Handled.html"
+		],
+		"resources": [
+			"css/index.css",
+			"fonts/iconfont.css",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"fonts/icomoon.ttf",
+			"js/config.js"
+		]
+	},
+	"page/complain/releaseEvaluate_Handled.html": {
+		"resources": [
+			"css/index.css",
+			"fonts/iconfont.css",
+			"js/common.js",
+			"images/detail-iocn01.png",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"fonts/icomoon.ttf",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/config.js",
+			"images/detail-iocn001.png"
+		]
+	},
+	"page/evaluate/historyEvaluate.html": {
+		"refer": [
+			"page/evaluate/evaluateDetail.html"
+		]
+	},
+	"page/problem/historyProblem.html": {
+		"refer": [
+			"page/problem/problemDetail_Handled.html"
+		]
+	}
+}

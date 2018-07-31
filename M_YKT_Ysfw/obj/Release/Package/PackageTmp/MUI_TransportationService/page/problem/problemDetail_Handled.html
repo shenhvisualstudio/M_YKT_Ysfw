@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<title>问题详情</title>
+
+		<link rel="stylesheet" href="../../fonts/iconfont.css" />
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<link rel="stylesheet" href="../../css/style.css" />
+		<link rel="stylesheet" href="../../css/index.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background: #27c1f7;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title" style="color: white;">问题详情</h1>
+			<!--<a class="mui-icon mui-pull-right" id="id_MyEavluate_A" style="font-size: 15px; line-height: 26px; color: white;">我的评价</a>-->
+		</header>
+		<div class="mui-content" style="padding-top: 44px;">
+			<section class="order">
+
+			</section>
+		</div>
+		<script type="text/javascript" src="../../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../../js/md5-min.js" ></script>
+		<script type="text/javascript" src="../../js/config.js "></script>
+		<script type="text/javascript" src="../../js/common.js "></script>
+		<script type="text/javascript ">
+			//账户
+			var account = " ";
+			//ID
+			var problemId = " ";
+
+			mui.init({
+				
+				//				swipeBack: true,
+				//				gestureConfig: {
+				//					swipe: true 
+				//				},			
+			});
+	
+			mui.plusReady(function() {
+				var params = plus.webview.currentWebview();
+				//账户
+				account = params.account;	
+				//ID
+				problemId = params.problemId;
+				
+				loadPage();
+				
+				//删除
+				mui(".order").on('tap', 'dl time', function() {		
+					mui.openWindow({
+
+						url: "myEvaluate_Handled.html",
+						id: "myEvaluate_Handled.html",
+
+						extras: {
+							account: account,
+							problemId: problemId,
+						},
+						createNew: false,
+						show: {
+							autoShow: true,
+						},
+					});	
+				})	
+				
+				//评价
+				mui(".order").on('tap', 'dl .order-que', function() {		
+					mui.openWindow({
+
+						url: "releaseEvaluate_Handled.html",
+						id: "releaseEvaluate_Handled.html",
+
+						extras: {
+							account: account,
+							problemId: problemId,
+						},
+						createNew: false,
+						show: {
+							autoShow: true,
+						},
+					});	
+				})	
+			});
+
+			/*
+			 * 加载页面
+			 */
+			function loadPage() {
+				
+				var objectList = new Array();
+				objectList.push(new KeyValue("AppName", Sys.APP_CODE));
+				objectList.push(new KeyValue("Id", problemId));
+				
+				mui.ajax({
+					type: 'POST',
+					data: {
+						'AppName': Sys.APP_CODE,
+						'Sign': GetSign(objectList),
+						'Id': problemId,
+					},
+					url: Url.HTTP_GET_PROBLEM_DETAIL_URL,
+					timeout: 10000, //超时时间设置为10秒；
+					dataType: 'json', //服务器返回json格式数据
+
+					success: function(data) {
+
+						if(data.IsSuccess) {
+							//添加列表
+							var table = document.body.querySelector('.order');
+							render(data.Data, table);
+
+						} else {
+							console.log(data.Message);
+							mui.toast(data.Message);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+
+						console.log(errorThrown);
+						mui.toast("网络未连接 ");
+					}
+				});
+			}
+
+			//添加列表
+			function render(data, table) {
+
+				var item = data;
+				var dl = document.createElement('dl');
+				var strItem = renderItem(item);			
+				if(data[8] == "已解决") {
+					strItem = strItem.replace("fr color0", "fr color1");
+				}
+				else if(data[8] == "已评价") {
+					strItem = strItem.replace("fr color0", "fr color2");
+				}
+				else if(data[8] == "已受理") {
+					strItem = strItem.replace("fr color0", "fr color3");
+				}				
+				dl.innerHTML = strItem;
+				table.appendChild(dl);
+			}
+
+			//添加列表元素
+			function renderItem(data) {
+				var str =
+            "<dl>\
+                <dt>\
+                    <span>问题内容</span>\
+                    <span class=\"fr color0\">" + data[8] + "</span>\
+                </dt>\
+                <dd>\
+                    <span class=\"text2\">问题对象：</span>\
+                    <span class=\"text3\">" + data[2] + "&nbsp;&nbsp;&nbsp;&nbsp;" + data[3] + "</span><br>\
+                    <span class=\"text2\">问题标题：</span>\
+                    <span class=\"text3\">" + data[9] + "</span><br>\
+                    <span class=\"text2\">问题说明：</span>\
+                    <span class=\"text3\">" + data[10] + "</span><br>\
+                    <span class=\"text2\">问题时间：</span>\
+                    <span class=\"text3\">" + data[6] + "</span><br>\
+                </dd>\
+            </dl>\
+            <dl>\
+                <dt>\
+                    <span>处理结果</span>\
+                </dt>\
+                <dd>\
+                    <span class=\"text3\" style=\"height: 80px; display: inline-block;\">" + data[11] + "</span><br>\
+                    <span class=\"text2\">处理时间：</span>\
+                    <span class=\"text3\">" + data[12] + "</span>\
+                 <dd>\
+                    <input type=\"button\" value=\"评价\" class=\"order-que\" id=\"id_ReleaseEvaluate_Handled_Input\" />\
+                </dd>\
+                </dd>\
+            </dl>\
+            <dl>\
+                <dt>\
+                    <span>评价内容</span>\
+                </dt>\
+                <dd>\
+                    <span class=\"text2\">满意度评价：</span>\
+                    <span class=\"text3\">" + data[13] + "</span><br>\
+                    <span class=\"text2\">满意度评分：</span>\
+                    <span class=\"text3\">" + data[14] + "</span><br>\
+                    <span class=\"text2\">评价时间：</span>\
+                    <span class=\"text3\">" + data[15] + "</span><br>\
+                </dd>\
+            </dl>";
+				return str;
+			}
+		</script>
+	</body>
+
+</html>
